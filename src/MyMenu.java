@@ -1,14 +1,16 @@
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
 public class MyMenu extends JMenuBar {
     private JFrame frame;
     private JButton infoItem;
-    private JPanel panelInfo = new JPanel();
+    private JScrollPane panelInfo = new JScrollPane();
     private Laboratory laboratory = new Laboratory();
     private static HashMap<String, ProductGroup> allProducts = new HashMap<String, ProductGroup>();
     public MyMenu(JFrame frame){
@@ -26,25 +28,41 @@ public class MyMenu extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(panelInfo != null) frame.remove(panelInfo);
-               panelInfo = new JPanel();
-               panelInfo.setLayout(new GridLayout(0,1,0,20));
-               fillPanelInfo();
-               frame.add(panelInfo);
-               frame.revalidate();
+                JTable table = getTableAllProducts();
+                panelInfo = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                frame.add(panelInfo);
+                frame.revalidate();
             }
         });
         this.add(infoItem);
 
     }
 
+    private JTable getTableAllProducts() {
+        ArrayList<Product> products = laboratory.getAllProducts();
+        String[][] prodTableString = new String[products.size()][5];
+        for(int i = 0;i<prodTableString.length;i++){
+            prodTableString[i][0] = products.get(i).getName();
+            prodTableString[i][1] = products.get(i).getDescription();
+            prodTableString[i][2] = products.get(i).getMaker();
+            prodTableString[i][3] = products.get(i).getNumber() +" шт.";
+            prodTableString[i][4] = products.get(i).getPrice() +" грн";
+        }
+        String[] columnsHeader = new String[]{"Назва","Опис","Виробник","Кількість","Ціна"};
+        JTable table = new JTable(prodTableString,columnsHeader);
+        Font font = new Font("Verdana", Font.PLAIN, 15);
+        table.setFont(font);
+        return table;
+    }
+
     private void initLaboratory() {
-        allProducts = laboratory.getAllProducts();
+        allProducts = laboratory.getProductGroups();
         try {
             laboratory.addProductGroup("Test", "Test");
-            laboratory.addProduct(laboratory.getAllProducts().get("Test"), "Новий", "Опис", "Рошен", 12, 12.5);
-            laboratory.addProduct(laboratory.getAllProducts().get("Test"), "Ух", "Опис", "Рошен", 12, 12.5);
+            laboratory.addProduct(laboratory.getProductGroups().get("Test"), "Новий", "Опис", "Рошен", 12, 12.5);
+            laboratory.addProduct(laboratory.getProductGroups().get("Test"), "Ух", "Опис", "Рошен", 12, 12.5);
             laboratory.addProductGroup("Test1", "Test");
-            laboratory.addProduct(laboratory.getAllProducts().get("Test1"), "Ух1", "Опис", "Рошен", 16, 12.5);
+            laboratory.addProduct(laboratory.getProductGroups().get("Test1"), "Ух1", "Опис", "Рошен", 16, 12.5);
         } catch (ExceptionSameName exceptionSameName) {
             exceptionSameName.printStackTrace();
         }

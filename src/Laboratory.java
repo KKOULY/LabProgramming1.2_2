@@ -3,42 +3,59 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Laboratory extends JFrame {
-    private static HashMap<String, ProductGroup> allProducts = new HashMap<String, ProductGroup>();
+    private static HashMap<String, ProductGroup> productGroups = new HashMap<String, ProductGroup>();
 
 
 
     public static void addProductGroup(String name, String description) throws ExceptionSameName{
     ProductGroup productGroup = new ProductGroup(name, description);
-    if (allProducts.containsKey(productGroup.getName())) throw new ExceptionSameName(productGroup);
-    allProducts.put(productGroup.getName(), productGroup);
+    if (productGroups.containsKey(productGroup.getName())) throw new ExceptionSameName(productGroup);
+    productGroups.put(productGroup.getName(), productGroup);
     }
 
 
     public static void addProduct(ProductGroup productGroup, String name, String description, String maker, int number, double price) throws  ExceptionSameName{
         Product product = new Product(name, description,maker,number,price);
-        for (String key: allProducts.keySet()){
-            if (allProducts.get(key).getProducts().containsKey(name)) throw new ExceptionSameName(product);
+        for (String key: productGroups.keySet()){
+            if (productGroups.get(key).getProducts().containsKey(name)) throw new ExceptionSameName(product);
         }
-        allProducts.get(productGroup.getName()).getProducts().put(product.getName(),product);
+        productGroups.get(productGroup.getName()).getProducts().put(product.getName(),product);
     }
 
     public static void deleteProductGroup(String name){
-        allProducts.remove(name);
+        productGroups.remove(name);
     }
 
     public static void deleteProduct(ProductGroup productGroup, String name){
         productGroup.getProducts().remove(name);
     }
 
+    public static void deleteProduct(String name){
+        for(String productGroupName: productGroups.keySet()){
+            productGroups.get(productGroupName).getProducts().remove(name);
+        }
+    }
+
     public static String allProductsList(){
         String list = "";
-        for (String key: allProducts.keySet()){
+        for (String key: productGroups.keySet()){
             list+="Группа продуктів: "+key+". Продукти:\n";
-            for (String keyProducts : allProducts.get(key).getProducts().keySet()){
-                list+=allProducts.get(key).getProducts().get(keyProducts).toString()+"\n";
+            for (String keyProducts : productGroups.get(key).getProducts().keySet()){
+                list+= productGroups.get(key).getProducts().get(keyProducts).toString()+"\n";
             }
         }
         return list;
+    }
+
+    public static ArrayList<Product> getAllProducts(){
+        ArrayList<Product> products = new ArrayList<Product>();
+
+        for(String productGroupName: productGroups.keySet()){
+            for(String productName: productGroups.get(productGroupName).getProducts().keySet()){
+                products.add(productGroups.get(productGroupName).getProducts().get(productName));
+            }
+        }
+        return products;
     }
     public static String listOfProductsInAGroup(ProductGroup productGroup){
         String list = "";
@@ -78,17 +95,17 @@ public class Laboratory extends JFrame {
     public static void main(String[] args) {
         try {
             addProductGroup("Test", "Test");
-            addProduct(allProducts.get("Test"), "Новий", "Опис", "Рошен", 12, 12.5);
-            addProduct(allProducts.get("Test"), "Ух", "Опис", "Рошен", 12, 12.5);
+            addProduct(productGroups.get("Test"), "Новий", "Опис", "Рошен", 12, 12.5);
+            addProduct(productGroups.get("Test"), "Ух", "Опис", "Рошен", 12, 12.5);
             addProductGroup("Test1", "Test");
-            addProduct(allProducts.get("Test1"), "Ух", "Опис", "Рошен", 16, 12.5);
+            addProduct(productGroups.get("Test1"), "Ух", "Опис", "Рошен", 16, 12.5);
         } catch (ExceptionSameName exceptionSameName) {
             exceptionSameName.printStackTrace();
         }
-        System.out.println(listOfProductsInAGroup(allProducts.get("Test")));
+        System.out.println(listOfProductsInAGroup(productGroups.get("Test")));
     }
 
-    public static HashMap<String, ProductGroup> getAllProducts() {
-        return allProducts;
+    public static HashMap<String, ProductGroup> getProductGroups() {
+        return productGroups;
     }
 }
