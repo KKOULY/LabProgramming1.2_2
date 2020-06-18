@@ -30,13 +30,21 @@ public class Laboratory extends JFrame {
         productGroup.getProducts().remove(name);
     }
 
-    private static String allProductsList(){
+    public static String allProductsList(){
         String list = "";
         for (String key: allProducts.keySet()){
             list+="Группа продуктів: "+key+". Продукти:\n";
             for (String keyProducts : allProducts.get(key).getProducts().keySet()){
                 list+=allProducts.get(key).getProducts().get(keyProducts).toString()+"\n";
             }
+        }
+        return list;
+    }
+    public static String listOfProductsInAGroup(ProductGroup productGroup){
+        String list = "";
+        list+=productGroup.getName()+": \n";
+        for (String keyProducts : productGroup.getProducts().keySet()){
+            list+=productGroup.getProducts().get(keyProducts).toString()+"\n";
         }
         return list;
     }
@@ -77,7 +85,6 @@ public class Laboratory extends JFrame {
         } catch (ExceptionSameName exceptionSameName) {
             exceptionSameName.printStackTrace();
         }
-        deleteProduct(allProducts.get("Test"), "Новий");
-        System.out.println(allProductsList());
+        System.out.println(listOfProductsInAGroup(allProducts.get("Test")));
     }
 }
