@@ -87,4 +87,8 @@ public class Laboratory extends JFrame {
         }
         System.out.println(listOfProductsInAGroup(allProducts.get("Test")));
     }
+
+    public static HashMap<String, ProductGroup> getAllProducts() {
+        return allProducts;
+    }
 }
