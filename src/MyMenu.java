@@ -266,7 +266,6 @@ public class MyMenu extends JMenuBar {
         private JTextField nameField;
         private JTextField descriptionField;
         private JTextField makerField;
-        private JTextField numberField;
         private JTextField priceField;
         private JButton buttonOk;
         private JButton buttonCancel;
@@ -309,12 +308,6 @@ public class MyMenu extends JMenuBar {
             tempPanel.add(label3);
             makerField = new JTextField();
             tempPanel.add(makerField);
-
-            JLabel label4 = new JLabel("Кількість товару");
-            label4.setFont(font);
-            tempPanel.add(label4);
-            numberField = new JTextField();
-            tempPanel.add(numberField);
 
             JLabel label5 = new JLabel("Ціна за одиницю товару");
             label5.setFont(font);
