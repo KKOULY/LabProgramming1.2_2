@@ -214,11 +214,45 @@ public class MyMenu extends JMenuBar {
         infoBank.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if(panel != null){
+                    frame.remove(panel);
+                    frame.repaint();
+                }
+                JPanel panel = getBankPanel();
+                frame.add(panel);
+                frame.revalidate();
             }
         });
+        menu.add(infoBank);
 
         return menu;
+    }
+
+    private JPanel getBankPanel() {
+        JPanel panel = new JPanel(new GridLayout(3,1,0,40));
+        panel.setOpaque(false);
+        JLabel label = new JLabel("Виберіть групу товарів");
+        panel.add(label);
+        label.setFont(fontMenu);
+        JComboBox<String> groupsComboBox = new JComboBox<>();
+        panel.add(groupsComboBox);
+        groupsComboBox.setFont(fontMenu);
+        groupsComboBox.addItem("Всі товари");
+        JLabel bank = new JLabel("Всього: "+shop.getAllBank()+" грн");
+        bank.setFont(fontMenu);
+        for(String key:shop.getProductGroups().keySet()){
+            groupsComboBox.addItem(key);
+        }
+        groupsComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String s = (String) groupsComboBox.getSelectedItem();
+                if(s.equals("Всі товари")) bank.setText("Всього: "+shop.getAllBank()+" грн");
+                else bank.setText("Всього: "+shop.getBankProductGroup(s)+" грн");
+            }
+        });
+        panel.add(bank);
+        return panel;
     }
 
     private JPanel getScrollPanel(JTable table) {

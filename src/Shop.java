@@ -50,7 +50,7 @@ public class Shop {
             productGroups=(HashMap<String, ProductGroup>)reader.readObject();
             reader.close();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -305,5 +305,17 @@ public class Shop {
             if (productGroups.get(key).getName().equals(getRightString(s))) return true;
         }
         return false;
+    }
+
+    public Double getAllBank() {
+        Double bank = 0.0;
+        for(String key:productGroups.keySet()){
+            bank+=getBankProductGroup(key);
+        }
+        return bank;
+    }
+
+    public Double getBankProductGroup(String key) {
+        return productGroups.get(key).getBank();
     }
 }
