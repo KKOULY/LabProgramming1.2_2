@@ -379,7 +379,7 @@ public class MyMenu extends JMenuBar {
             this.setLocation((int) dimension.getWidth() / 2 - this.getWidth() / 2, (int) dimension.getHeight() / 2 - this.getHeight() / 2);
         }
         private JPanel getGroupPanel() {
-            JPanel tempPanel = new JPanel(new GridLayout(5, 1, 40, 20));
+            JPanel tempPanel = new JPanel(new GridLayout(7, 2, 40, 20));
             JLabel label0 = new JLabel("Виберіть групу товару");
             label0.setFont(font);
             tempPanel.add(label0);
@@ -387,11 +387,11 @@ public class MyMenu extends JMenuBar {
             for (int i = 0; i < productGroupArr.length; i++) {
                 productGroupArr[i] = shop.getAllProductGroups().get(i).getName();
             }
+            productGroupChoose = new JComboBox<>(productGroupArr);
+            tempPanel.add(productGroupChoose);
             JLabel labelChoose = new JLabel("Виберіть товар");
             labelChoose.setFont(font);
             tempPanel.add(labelChoose);
-            productGroupChoose = new JComboBox<>(productGroupArr);
-            tempPanel.add(productGroupChoose);
             productGroupChoose.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
