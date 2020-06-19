@@ -309,8 +309,19 @@ public class MyMenu extends JMenuBar {
         delProduct.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                DeleteProductDialog dialog = new DeleteProductDialog("Видалити товар");
-                dialog.setVisible(true);
+                boolean noClearGroups=false;
+                for (ProductGroup productGroup :shop.getAllProductGroups()){
+                    if (productGroup.getProducts().size()>0){
+                        noClearGroups=true;
+                        break;
+                    }
+                }
+                if (noClearGroups) {
+                    DeleteProductDialog dialog = new DeleteProductDialog("Видалити товар");
+                    dialog.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "В магазині немає товарів!", "Помилка!", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         JMenuItem changeProduct = new JMenuItem("Редагувати товар");
@@ -319,8 +330,19 @@ public class MyMenu extends JMenuBar {
         changeProduct.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                boolean noClearGroups=false;
+                for (ProductGroup productGroup :shop.getAllProductGroups()){
+                    if (productGroup.getProducts().size()>0){
+                        noClearGroups=true;
+                        break;
+                    }
+                }
+                if (noClearGroups) {
                 ChangeProductDialog dialog = new ChangeProductDialog("Редагувати товар");
                 dialog.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "В магазині немає товарів!", "Помилка!", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         return menu;
