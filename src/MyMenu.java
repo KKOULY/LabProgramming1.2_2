@@ -62,7 +62,6 @@ public class MyMenu extends JMenuBar {
         tempPanel.setOpaque(false);
 
         JPanel text = new JPanel(new GridLayout(1,2));
-        text.setOpaque(false);
         JLabel label = new JLabel("Введіть назву");
         label.setFont(fontMenu);
         label.setHorizontalAlignment(JLabel.CENTER);
