@@ -39,12 +39,14 @@ public class Laboratory extends JFrame {
         try {
             shop.addProductGroup("Test", "Test");
             shop.addProduct( shop.getProductGroups().get("Test"), "Новий", "Опис", "Рошен", 12, 12.5);
+            shop.addProduct( shop.getProductGroups().get("Test"), "Новийфіс", "Опис", "Рошен", 12, 12.5);
             shop.addProduct( shop.getProductGroups().get("Test"), "Ух", "Опис", "Рошен", 12, 12.5);
             shop.addProductGroup("Test1", "Test");
-            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух", "Опис", "Рошен", 16, 12.5);
+            shop.addProduct(shop.getProductGroups().get("Test1"), "Qeqwe", "Опис", "Рошен", 1, 12.5);
         } catch (ExceptionSameName exceptionSameName) {
             exceptionSameName.printStackTrace();
         }
-        System.out.println(shop.listOfProductsInAGroup(shop.getProductGroups().get("Test")));
+        shop.buyProduct("Qeqwe",100);
+        System.out.println(shop.findProduct("Q"));
     }
 }
