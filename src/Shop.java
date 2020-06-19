@@ -177,7 +177,7 @@ public class Shop {
      * @throws ExceptionSameName кидає помилку, якщо існує товар з такою назвою
      */
     public void addProduct(ProductGroup productGroup, String name, String description, String maker, int number, double price) throws  ExceptionSameName{
-        Product product = new Product(name, description,maker,number,price);
+        Product product = new Product(name, description,maker,number,price, productGroup);
         for (String key: productGroups.keySet()){
             if (productGroups.get(key).getProducts().containsKey(name)) throw new ExceptionSameName(product);
         }
