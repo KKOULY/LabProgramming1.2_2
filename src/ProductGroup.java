@@ -82,7 +82,7 @@ public class ProductGroup implements Serializable {
 
     /**
      * Стрічка групи продуктів
-     * @return повертає стрічку групи продуктів 
+     * @return повертає стрічку групи продуктів
      */
     @Override
     public String toString() {
