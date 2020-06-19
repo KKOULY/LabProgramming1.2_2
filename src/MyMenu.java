@@ -478,9 +478,17 @@ public class MyMenu extends JMenuBar {
             JLabel label0 = new JLabel("Виберіть групу товару");
             label0.setFont(font);
             tempPanel.add(label0);
-            String[] productGroupArr = new String[shop.getAllProductGroups().size()];
-            for (int i = 0; i < productGroupArr.length; i++) {
-                productGroupArr[i] = shop.getAllProductGroups().get(i).getName();
+            int notEmptyGroup=0;
+            for (ProductGroup productGroup : shop.getAllProductGroups()){
+                if (productGroup.getProducts().size()>0) notEmptyGroup++;
+            }
+            String[] productGroupArr = new String[notEmptyGroup];
+            int readyGroups=0;
+            for (int i = 0; i < shop.getAllProductGroups().size(); i++) {
+                if (shop.getAllProductGroups().get(i).getProducts().size()>0) {
+                    productGroupArr[readyGroups] = shop.getAllProductGroups().get(i).getName();
+                    readyGroups++;
+                }
             }
             productGroupChoose = new JComboBox<>(productGroupArr);
             tempPanel.add(productGroupChoose);
@@ -557,7 +565,7 @@ public class MyMenu extends JMenuBar {
                     String maker = makerField.getText();
                     double price = getPrice(priceField.getText());
                     ProductGroup productGroup = shop.getProductGroups().get(productGroupChoose.getSelectedItem());
-                    if(Laboratory.isWord(name) && price != -1 && !shop.isContainsProductName(name)){
+                    if(Laboratory.isWord(name) && price != -1){
                         product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
                         shop.deleteProduct(product.getName());
                         Product deletedProduct = product;
@@ -639,13 +647,21 @@ public class MyMenu extends JMenuBar {
         }
 
         private JPanel getGroupPanel() {
-            JPanel tempPanel = new JPanel(new GridLayout(5, 1, 40, 20));
+            JPanel tempPanel = new JPanel(new GridLayout(3, 2, 40, 20));
             JLabel label0 = new JLabel("Виберіть групу товару");
             label0.setFont(font);
             tempPanel.add(label0);
-            String[] productGroupArr = new String[shop.getAllProductGroups().size()];
-            for (int i = 0; i < productGroupArr.length; i++) {
-                productGroupArr[i] = shop.getAllProductGroups().get(i).getName();
+            int notEmptyGroup=0;
+            for (ProductGroup productGroup : shop.getAllProductGroups()){
+                if (productGroup.getProducts().size()>0) notEmptyGroup++;
+            }
+            String[] productGroupArr = new String[notEmptyGroup];
+            int readyGroups=0;
+            for (int i = 0; i < shop.getAllProductGroups().size(); i++) {
+                if (shop.getAllProductGroups().get(i).getProducts().size()>0) {
+                    productGroupArr[readyGroups] = shop.getAllProductGroups().get(i).getName();
+                    readyGroups++;
+                }
             }
             productGroupChoose = new JComboBox<>(productGroupArr);
             tempPanel.add(productGroupChoose);
