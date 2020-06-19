@@ -72,6 +72,7 @@ public class Shop {
      * @return продукти
      */
     public ArrayList<Product> findProduct(String name){
+        name = getRightString(name);
     ArrayList<Product> products = new ArrayList<Product>();
     for (Product p : getAllProducts()){
         boolean find = false;
@@ -89,6 +90,19 @@ public class Shop {
         }
     }
     return products;
+    }
+
+    /**
+     * Повертає нормальний вид назви
+     * @param name назва
+     * @return нормальний вид назви
+     */
+    private String getRightString(String name) {
+        String temp = name.toLowerCase();
+        if(temp.length()>0) {
+            temp = Character.toUpperCase(temp.charAt(0))+temp.substring(1,temp.length());
+        }
+        return temp;
     }
 
     /**

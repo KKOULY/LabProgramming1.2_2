@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -26,7 +28,74 @@ public class MyMenu extends JMenuBar {
         this.add(menuProductGroups);
         menuProducts = getProductsMenu();
         this.add(menuProducts);
+        menuFind = getFindMenu();
+        this.add(menuFind);
 
+    }
+
+    private JMenu getFindMenu() {
+        JMenu menu = new JMenu("Пошук");
+        JMenuItem findItem = new JMenuItem("Пошук");
+        findItem.setFont(fontMenu);
+        findItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(panel!=null) frame.remove(panel);
+                panel = getFindPanel();
+                frame.add(panel);
+                frame.revalidate();
+            }
+        });
+        menu.add(findItem);
+        return menu;
+    }
+
+    JTable findTable;
+    private JPanel getFindPanel() {
+        JPanel tempPanel = new JPanel();
+        findTable = getTableProducts(new ArrayList<>());
+        tempPanel.add(findTable);
+        JTextField findField = new JTextField(20);
+        tempPanel.add(findField);
+        findField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                ArrayList<Product> products = shop.findProduct(findField.getText());
+                System.out.println(findField.getText()+"--"+products);
+                tempPanel.remove(findTable);
+                findTable = getTableProducts(products);
+                tempPanel.add(findTable);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
+        return tempPanel;
+    }
+
+    private JTable getTableProducts(ArrayList<Product> products) {
+        String[][] prodTableString = new String[products.size()][6];
+        for(int i = 0;i<prodTableString.length;i++){
+            prodTableString[i][0] = products.get(i).getName();
+            prodTableString[i][1] = products.get(i).getDescription();
+            prodTableString[i][2] = products.get(i).getMaker();
+            prodTableString[i][3] = products.get(i).getNumber() +" шт.";
+            prodTableString[i][4] = products.get(i).getPrice() +" грн";
+            prodTableString[i][5] = products.get(i).getProductGroup().getName();
+        }
+        String[] columnsHeader = new String[]{"Назва товару","Опис","Виробник","Кількість","Ціна","Група товарів"};
+        JTable table = new JTable(prodTableString,columnsHeader);
+        table.setEnabled(false);
+        Font font = new Font("Verdana", Font.PLAIN, 15);
+        table.setFont(font);
+        return table;
     }
 
     private JMenu getInfoMenu() {
@@ -41,10 +110,6 @@ public class MyMenu extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 if(panel != null) frame.remove(panel);
                 JTable table = getTableAllProducts();
-//                JScrollPane panelScroll = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-//                panelScroll.setPreferredSize(new Dimension((int) (frame.getWidth()*0.9), (frame.getHeight()-120)));
-//                panel = new JPanel();
-//                panel.add(panelScroll);
                 panel = getScrollPanel(table);
                 frame.add(panel);
                 frame.revalidate();
@@ -183,21 +248,6 @@ public class MyMenu extends JMenuBar {
     private static Shop shop = new Shop();
 
     private void initLaboratory() {
-//        try {
-//            shop.addProductGroup("Test", "Test");
-//            shop.addProduct(shop.getProductGroups().get("Test"), "Новий", "Опис", "Рошен", 12, 12.5);
-//            shop.addProduct(shop.getProductGroups().get("Test"), "Ух", "Опис", "Рошен", 12, 12.5);
-//            shop.addProductGroup("Test1", "Test");
-//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух1", "Опис", "Рошен", 16, 12.5);
-//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух2", "Опис", "Рошен", 16, 12.5);
-//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух3", "Опис", "Рошен", 16, 12.5);
-//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух4", "Опис", "Рошен", 16, 12.5);
-//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух5", "Опис", "Рошен", 16, 12.5);
-//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух6", "Опис", "Рошен", 16, 12.5);
-//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух7", "Опис", "Рошен", 16, 12.5);
-//        } catch (ExceptionSameName exceptionSameName) {
-//            exceptionSameName.printStackTrace();
-//        }
         shop.load();
     }
 
