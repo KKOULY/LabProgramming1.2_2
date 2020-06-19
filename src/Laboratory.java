@@ -48,6 +48,7 @@ public class Laboratory extends JFrame {
         }
         shop.buyProduct("Qeqwe",100);
         shop.save();
+        shop.load();
         System.out.println(shop.allProductsList());
     }
 }
