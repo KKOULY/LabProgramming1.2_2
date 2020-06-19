@@ -28,7 +28,7 @@ public class Shop {
     }
 
     /**
-     * Зберігає
+     * Зберігає всі дані про магазин
      */
     public void save() {
             try {
@@ -40,6 +40,9 @@ public class Shop {
             }
     }
 
+    /**
+     * Завантажує дані про могазин
+     */
     public void load(){
         try {
             ObjectInputStream reader = new ObjectInputStream(new FileInputStream("products.dat"));
@@ -50,6 +53,10 @@ public class Shop {
         }
     }
 
+    /**
+     * Всі группи товарів
+     * @return  группи товарів
+     */
     public ArrayList<ProductGroup> getAllProductGroups() {
         ArrayList<ProductGroup> productGroupsTemp = new ArrayList<ProductGroup>();
         for(String s:productGroups.keySet()){
@@ -58,7 +65,11 @@ public class Shop {
         return productGroupsTemp;
     }
 
-
+    /**
+     *Метод для пошуку товару за назвою
+     * @param name назва групи продуктів
+     * @return продукти
+     */
     public ArrayList<Product> findProduct(String name){
     ArrayList<Product> products = new ArrayList<Product>();
     for (Product p : getAllProducts()){
@@ -79,6 +90,12 @@ public class Shop {
     return products;
     }
 
+    /**
+     * Метод для продажу продукта
+     * @param name назва продукту
+     * @param numberOfSell кількість проданих товарів
+     * @throws IllegalArgumentException кидає помилку, якщо намагаєшся продати більше, ніж є продуктів
+     */
     public void sellProduct(String name, int numberOfSell)throws IllegalArgumentException{
         for (Product product : getAllProducts()){
             if (product.getName().equals(name)){
@@ -88,6 +105,11 @@ public class Shop {
         }
     }
 
+    /**
+     * Метод для покупки продуктів
+     * @param name назва продукту
+     * @param numberOfBuy кількість куплених продуктів
+     */
     public void buyProduct(String name, int numberOfBuy){
         for (Product product : getAllProducts()){
             if (product.getName().equals(name)){
@@ -96,18 +118,32 @@ public class Shop {
         }
     }
 
+    /**
+     * Створити нову групу продуктів
+     * @param name назва групи продуктів
+     * @param description опис групи продуктів
+     * @throws ExceptionSameName кидає помилку, якшо існує група з такою назвою
+     */
     public void addProductGroup(String name, String description) throws ExceptionSameName{
         ProductGroup productGroup = new ProductGroup(name, description);
         if (productGroups.containsKey(productGroup.getName())) throw new ExceptionSameName(productGroup);
         productGroups.put(productGroup.getName(), productGroup);
     }
 
+    /**
+     * Створити нову групу продуктів
+     * @param productGroup нова група
+     * @throws ExceptionSameName кидає помилку, якшо існує група з такою назвою
+     */
     public void addProductGroup(ProductGroup productGroup) throws ExceptionSameName{
         if (productGroups.containsKey(productGroup.getName())) throw new ExceptionSameName(productGroup);
         productGroups.put(productGroup.getName(), productGroup);
     }
 
-
+    /**
+     * Ціна всіх продуктів
+     * @return повертає ціну всіх продуктів
+     */
     public double priceOfAllProducts(){
         double price=0;
       for (Product p : getAllProducts()){
@@ -116,6 +152,11 @@ public class Shop {
       return price;
      }
 
+    /**
+     * Ціна продуктів в групі
+     * @param groupName назва групи
+     * @return повертає ціну продуктів в групі
+     */
     public double priceOfProductsInAGroup(String groupName){
         double price=0;
         ProductGroup productGroup = productGroups.get(groupName);
@@ -125,6 +166,16 @@ public class Shop {
         return price;
     }
 
+    /**
+     * Додає новий продукт
+     * @param productGroup группа в якій знаходиться продукт
+     * @param name назва продукту
+     * @param description опис продукту
+     * @param maker виробник продукту
+     * @param number кількість товару на складі
+     * @param price ціна за одиницю товару
+     * @throws ExceptionSameName кидає помилку, якщо існує товар з такою назвою
+     */
     public void addProduct(ProductGroup productGroup, String name, String description, String maker, int number, double price) throws  ExceptionSameName{
         Product product = new Product(name, description,maker,number,price);
         for (String key: productGroups.keySet()){
@@ -133,20 +184,37 @@ public class Shop {
         productGroups.get(productGroup.getName()).getProducts().put(product.getName(),product);
     }
 
+    /**
+     * Видаляє групу продуктів
+     * @param name назва групи продуктів
+     */
     public void deleteProductGroup(String name){
         productGroups.remove(name);
     }
 
+    /**
+     * Видаляє продукт
+     * @param productGroup група продукту
+     * @param name назва продукту
+     */
     public void deleteProduct(ProductGroup productGroup, String name){
         productGroup.getProducts().remove(name);
     }
 
+    /**
+     * Видаляє продукт
+     * @param name назва продукту
+     */
     public void deleteProduct(String name){
         for(String productGroupName: productGroups.keySet()){
             productGroups.get(productGroupName).getProducts().remove(name);
         }
     }
 
+    /**
+     * Список всіх продуктів
+     * @return повертає список всіз продуктів
+     */
     public String allProductsList(){
         String list = "";
         for (String key: productGroups.keySet()){
@@ -158,6 +226,10 @@ public class Shop {
         return list;
     }
 
+    /**
+     * Всі продукти магазину
+     * @return повертає всі продукти магазину
+     */
     public ArrayList<Product> getAllProducts(){
         ArrayList<Product> products = new ArrayList<Product>();
 
@@ -168,6 +240,12 @@ public class Shop {
         }
         return products;
     }
+
+    /**
+     * Список продуктів в групі
+     * @param productGroup група продуктів
+     * @return продукти в групі
+     */
     public String listOfProductsInAGroup(ProductGroup productGroup){
         String list = "";
         list+=productGroup.getName()+": \n";
