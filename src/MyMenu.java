@@ -1,10 +1,7 @@
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -214,7 +211,14 @@ public class MyMenu extends JMenuBar {
         JMenuItem delProduct = new JMenuItem("Видалити товар");
         delProduct.setFont(fontItems);
         menu.add(delProduct);
-
+        delProduct.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                DeleteProductDialog dialog = new DeleteProductDialog("Виделання товарів");
+                dialog.setVisible(true);
+                Product product = dialog.getProduct();
+            }
+        });
         JMenuItem changeProduct = new JMenuItem("Редагувати товар");
         changeProduct.setFont(fontItems);
         menu.add(changeProduct);
@@ -346,7 +350,81 @@ public class MyMenu extends JMenuBar {
             return productGroup;
         }
     }
+    static class DeleteProductDialog extends JDialog {
+        private Product product;
+        private JPanel panel;
+        private JComboBox<String> productGroupChoose;
+        private JComboBox<String> productChoose;
+        private JButton buttonOk;
+        private JButton buttonCancel;
+        private Font font = new Font("Verdana", Font.PLAIN, 16);
+        private JDialog dialog;
 
+        public DeleteProductDialog(String str) {
+            super(frame, str, true);
+            dialog = this;
+            this.setLayout(new FlowLayout());
+            panel = getGroupPanel();
+            this.add(panel);
+            this.pack();
+            Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+            this.setLocation((int) dimension.getWidth() / 2 - this.getWidth() / 2, (int) dimension.getHeight() / 2 - this.getHeight() / 2);
+        }
+
+        private JPanel getGroupPanel() {
+            JPanel tempPanel = new JPanel(new GridLayout(7, 2, 40, 20));
+            JLabel label0 = new JLabel("Виберіть групу товару");
+            label0.setFont(font);
+            tempPanel.add(label0);
+            String[] productGroupArr = new String[shop.getAllProductGroups().size()];
+            for (int i = 0; i < productGroupArr.length; i++) {
+                productGroupArr[i] = shop.getAllProductGroups().get(i).getName();
+            }
+            productGroupChoose = new JComboBox<>(productGroupArr);
+            tempPanel.add(productGroupChoose);
+            productGroupChoose.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    String[] productArr = new String[shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().size()];
+                    for (int i = 0; i<productArr.length;i++){
+                        productArr[i] = shop.getAllProducts().get(i).getName();
+                    }
+                    productChoose = new JComboBox<>(productArr);
+                    tempPanel.repaint();
+
+                }
+            });
+            String[] productArr = new String[shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().size()];
+            for (int i = 0; i<productArr.length;i++){
+                productArr[i] = shop.getAllProducts().get(i).getName();
+            }
+            productChoose = new JComboBox<>(productArr);
+            tempPanel.add(productChoose);
+
+            buttonOk = new JButton("ОК");
+            tempPanel.add(buttonOk);
+            buttonOk.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                }
+            });
+            buttonCancel = new JButton("Відмінити");
+            tempPanel.add(buttonCancel);
+            buttonCancel.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialog.setVisible(false);
+                }
+            });
+            return tempPanel;
+        }
+
+        public Product getProduct() {
+           // product=
+            return product;
+        }
+    }
     static class CreateProductDialog extends JDialog{
         private Product product;
         private JPanel panel;
