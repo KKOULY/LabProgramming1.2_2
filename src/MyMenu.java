@@ -214,14 +214,20 @@ public class MyMenu extends JMenuBar {
         delProduct.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                DeleteProductDialog dialog = new DeleteProductDialog("Видалання товарів");
+                DeleteProductDialog dialog = new DeleteProductDialog("Видалити товар");
                 dialog.setVisible(true);
             }
         });
         JMenuItem changeProduct = new JMenuItem("Редагувати товар");
         changeProduct.setFont(fontItems);
         menu.add(changeProduct);
-
+        changeProduct.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                ChangeProductDialog dialog = new ChangeProductDialog("Редагувати товар");
+                dialog.setVisible(true);
+            }
+        });
         return menu;
     }
 
@@ -349,6 +355,101 @@ public class MyMenu extends JMenuBar {
             return productGroup;
         }
     }
+    static class ChangeProductDialog extends JDialog{
+        private Product product;
+        private JPanel panel;
+        private JComboBox<String> productGroupChoose;
+        private JComboBox<String> productChoose;
+        private JButton buttonOk;
+        private JButton buttonCancel;
+        private JTextField nameField;
+        private JTextField descriptionField;
+        private JTextField makerField;
+        private JTextField priceField;
+        private Font font = new Font("Verdana", Font.PLAIN, 16);
+        private JDialog dialog;
+        public ChangeProductDialog(String str){
+            super(frame, str, true);
+            dialog = this;
+            this.setLayout(new FlowLayout());
+            panel = getGroupPanel();
+            this.add(panel);
+            this.pack();
+            Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+            this.setLocation((int) dimension.getWidth() / 2 - this.getWidth() / 2, (int) dimension.getHeight() / 2 - this.getHeight() / 2);
+        }
+        private JPanel getGroupPanel() {
+            JPanel tempPanel = new JPanel(new GridLayout(5, 1, 40, 20));
+            JLabel label0 = new JLabel("Виберіть групу товару");
+            label0.setFont(font);
+            tempPanel.add(label0);
+            String[] productGroupArr = new String[shop.getAllProductGroups().size()];
+            for (int i = 0; i < productGroupArr.length; i++) {
+                productGroupArr[i] = shop.getAllProductGroups().get(i).getName();
+            }
+            JLabel labelChoose = new JLabel("Виберіть товар");
+            labelChoose.setFont(font);
+            tempPanel.add(labelChoose);
+            productGroupChoose = new JComboBox<>(productGroupArr);
+            tempPanel.add(productGroupChoose);
+            productGroupChoose.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    HashMap<String,Product> productHashMap = shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts();
+                    productChoose.removeAllItems();
+                    for(String s:productHashMap.keySet()){
+                        productChoose.addItem(s);
+                    }
+
+                }
+            });
+            String[] productArr = new String[shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().size()];
+            for (int i = 0; i<productArr.length;i++){
+                productArr[i] = shop.getAllProducts().get(i).getName();
+            }
+            productChoose = new JComboBox<>(productArr);
+            tempPanel.add(productChoose);
+            JLabel label = new JLabel("Назва товару");
+            label.setFont(font);
+            tempPanel.add(label);
+            nameField = new JTextField();
+            tempPanel.add(nameField);
+            JLabel label2 = new JLabel("Опис групи товарів");
+            label2.setFont(font);
+            tempPanel.add(label2);
+            descriptionField = new JTextField();
+            tempPanel.add(descriptionField);
+            JLabel label3 = new JLabel("Виробник");
+            label3.setFont(font);
+            tempPanel.add(label3);
+            makerField = new JTextField();
+            tempPanel.add(makerField);
+            JLabel label5 = new JLabel("Ціна за одиницю товару");
+            label5.setFont(font);
+            tempPanel.add(label5);
+            priceField = new JTextField();
+            tempPanel.add(priceField);
+            buttonOk = new JButton("ОК");
+            tempPanel.add(buttonOk);
+            buttonOk.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
+                    shop.deleteProduct(product.getName());
+                    dialog.setVisible(false);
+                }
+            });
+            buttonCancel = new JButton("Відмінити");
+            tempPanel.add(buttonCancel);
+            buttonCancel.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialog.setVisible(false);
+                }
+            });
+            return tempPanel;
+        }
+    }
     static class DeleteProductDialog extends JDialog {
         private Product product;
         private JPanel panel;
@@ -397,6 +498,9 @@ public class MyMenu extends JMenuBar {
                 productArr[i] = shop.getAllProducts().get(i).getName();
             }
             productChoose = new JComboBox<>(productArr);
+            JLabel label = new JLabel("Виберіть товар");
+            label.setFont(font);
+            tempPanel.add(label);
             tempPanel.add(productChoose);
 
             buttonOk = new JButton("ОК");
