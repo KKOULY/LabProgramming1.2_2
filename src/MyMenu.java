@@ -214,9 +214,8 @@ public class MyMenu extends JMenuBar {
         delProduct.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                DeleteProductDialog dialog = new DeleteProductDialog("Виделання товарів");
+                DeleteProductDialog dialog = new DeleteProductDialog("Видалання товарів");
                 dialog.setVisible(true);
-                Product product = dialog.getProduct();
             }
         });
         JMenuItem changeProduct = new JMenuItem("Редагувати товар");
@@ -405,7 +404,9 @@ public class MyMenu extends JMenuBar {
             buttonOk.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
+                    product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
+                    shop.deleteProduct(product.getName());
+                    dialog.setVisible(false);
                 }
             });
             buttonCancel = new JButton("Відмінити");
@@ -419,10 +420,6 @@ public class MyMenu extends JMenuBar {
             return tempPanel;
         }
 
-        public Product getProduct() {
-           // product=
-            return product;
-        }
     }
     static class CreateProductDialog extends JDialog{
         private Product product;
