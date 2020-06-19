@@ -258,7 +258,7 @@ public class MyMenu extends JMenuBar {
     private JPanel getScrollPanel(JTable table) {
         JPanel panelTemp;
         JScrollPane panelScroll = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        panelScroll.setPreferredSize(new Dimension((int) (frame.getWidth()*0.9), (frame.getHeight()-120)));
+        panelScroll.setPreferredSize(new Dimension((int) (frame.getWidth()*0.9), (frame.getHeight()-85)));
         panelTemp = new JPanel();
         panelTemp.add(panelScroll);
         return panelTemp;
