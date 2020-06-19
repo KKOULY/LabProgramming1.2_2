@@ -495,8 +495,9 @@ public class MyMenu extends JMenuBar {
                     for(String s:productHashMap.keySet()){
                         productChoose.addItem(s);
                     }
+                    product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
                     nameField.setText(product.getName());
-                    tempPanel.add(descriptionField);
+                    descriptionField.setText(product.getDescription());
                     makerField.setText(product.getMaker());
                     priceField.setText(String.valueOf(product.getPrice()));
                 }
@@ -507,6 +508,16 @@ public class MyMenu extends JMenuBar {
             }
             productChoose = new JComboBox<>(productArr);
             tempPanel.add(productChoose);
+            productChoose.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
+                    nameField.setText(product.getName());
+                    descriptionField.setText(product.getDescription());
+                    makerField.setText(product.getMaker());
+                    priceField.setText(String.valueOf(product.getPrice()));
+                }
+            });
             product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
             JLabel label = new JLabel("Назва товару");
             label.setFont(font);
@@ -534,11 +545,38 @@ public class MyMenu extends JMenuBar {
             priceField.setText(String.valueOf(product.getPrice()));
             buttonOk = new JButton("ОК");
             tempPanel.add(buttonOk);
+            Color errorCol = new Color(255, 48, 48);
+            Color normalCol = descriptionField.getBackground();
             buttonOk.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
-                    shop.deleteProduct(product.getName());
+                    String name = nameField.getText();
+                    String description = descriptionField.getText();
+                    String maker = makerField.getText();
+                    double price = getPrice(priceField.getText());
+                    ProductGroup productGroup = shop.getProductGroups().get(productGroupChoose.getSelectedItem());
+                    if(Laboratory.isWord(name) && price != -1 && !shop.isContainsProductName(name)){
+                        product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
+                        shop.deleteProduct(product.getName());
+                        Product deletedProduct = product;
+                        product = new Product(name,description,maker,0,price, productGroup);
+                        try {
+                            shop.addProduct(product);
+                        } catch (ExceptionSameName exceptionSameName) {
+                            try {
+                                shop.addProduct(deletedProduct);
+                            } catch (ExceptionSameName sameName) {
+                                sameName.printStackTrace();
+                            }
+                            JOptionPane.showMessageDialog(null, exceptionSameName, "Помилка!", JOptionPane.ERROR_MESSAGE);
+                        } finally {
+                            dialog.setVisible(false);
+                        }
+                    }
+                    if(price == -1) priceField.setBackground(errorCol);
+                    else priceField.setBackground(normalCol);
+                    if(!Laboratory.isWord(name) || shop.isContainsProductName(name)) nameField.setBackground(errorCol);
+                    else nameField.setBackground(normalCol);
                     dialog.setVisible(false);
                 }
             });
@@ -552,6 +590,30 @@ public class MyMenu extends JMenuBar {
             });
             return tempPanel;
         }
+        private double getPrice(String text) {
+            double n;
+            try {
+                n = Double.valueOf(text);
+            }catch (Exception e){
+                return -1;
+            }
+
+            if(n <= 0) return -1;
+            return n;
+        }
+
+        private int getNumber(String text) {
+            int n;
+            try {
+                n = Integer.valueOf(text);
+            }catch (Exception e){
+                return -1;
+            }
+
+            if(n < 0) return -1;
+            return n;
+        }
+
     }
     static class DeleteProductDialog extends JDialog {
         private Product product;
