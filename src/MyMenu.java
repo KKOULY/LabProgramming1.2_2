@@ -63,6 +63,7 @@ public class MyMenu extends JMenuBar {
         JPanel text = new JPanel(new GridLayout(1,2));
         text.setOpaque(false);
         JLabel label = new JLabel("Введіть назву");
+        label.setHorizontalAlignment(JLabel.CENTER);
         text.add(label);
         JTextField findField = new JTextField(10);
         text.add(findField);
