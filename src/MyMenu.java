@@ -289,15 +289,19 @@ public class MyMenu extends JMenuBar {
         addProduct.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CreateProductDialog dialog = new CreateProductDialog("Створення товару");
-                dialog.setVisible(true);
-                Product product = dialog.getProduct();
-                if(product!=null) {
-                    try {
-                        shop.addProduct(product);
-                    } catch (ExceptionSameName exceptionSameName) {
-                        JOptionPane.showMessageDialog(null, exceptionSameName, "Помилка!", JOptionPane.ERROR_MESSAGE);
+                if (shop.getProductGroups().size() > 0) {
+                    CreateProductDialog dialog = new CreateProductDialog("Створення товару");
+                    dialog.setVisible(true);
+                    Product product = dialog.getProduct();
+                    if (product != null) {
+                        try {
+                            shop.addProduct(product);
+                        } catch (ExceptionSameName exceptionSameName) {
+                            JOptionPane.showMessageDialog(null, exceptionSameName, "Помилка!", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
+                }else {
+                    JOptionPane.showMessageDialog(null, "В магазині немає груп!", "Помилка!", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
