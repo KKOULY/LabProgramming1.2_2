@@ -290,4 +290,20 @@ public class Shop {
         }
         return list;
     }
+
+    public boolean isContainsProductName(String s) {
+        for (String key: productGroups.keySet()){
+            for(String key2:productGroups.get(key).getProducts().keySet()){
+                if(productGroups.get(key).getProducts().get(key2).getName().equals(getRightString(s))) return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isContainsProductGroupName(String s) {
+        for (String key: productGroups.keySet()){
+            if (productGroups.get(key).getName().equals(getRightString(s))) return true;
+        }
+        return false;
+    }
 }

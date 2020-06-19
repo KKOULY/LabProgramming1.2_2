@@ -322,12 +322,12 @@ public class MyMenu extends JMenuBar {
                    public void actionPerformed(ActionEvent e) {
                        String name = nameField.getText();
                        String description = descriptionField.getText();
-                       if(Laboratory.isWord(name)){
+                       if(Laboratory.isWord(name) && !shop.isContainsProductGroupName(name)){
                            productGroup = new ProductGroup(name,description);
                            dialog.setVisible(false);
                        }
 
-                       if(!Laboratory.isWord(name)) nameField.setBackground(errorCol);
+                       if(!Laboratory.isWord(name) || shop.isContainsProductGroupName(name)) nameField.setBackground(errorCol);
                        else nameField.setBackground(normalCol);
                    }
                });
@@ -415,13 +415,13 @@ public class MyMenu extends JMenuBar {
                     String maker = makerField.getText();
                     double price = getPrice(priceField.getText());
                     ProductGroup productGroup = shop.getProductGroups().get(productGroupChoose.getSelectedItem());
-                    if(Laboratory.isWord(name) && price != -1){
+                    if(Laboratory.isWord(name) && price != -1 && !shop.isContainsProductName(name)){
                         product = new Product(name,description,maker,0,price, productGroup);
                         dialog.setVisible(false);
                     }
                     if(price == -1) priceField.setBackground(errorCol);
                     else priceField.setBackground(normalCol);
-                    if(!Laboratory.isWord(name)) nameField.setBackground(errorCol);
+                    if(!Laboratory.isWord(name) || shop.isContainsProductName(name)) nameField.setBackground(errorCol);
                     else nameField.setBackground(normalCol);
                 }
             });
