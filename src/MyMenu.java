@@ -96,17 +96,33 @@ public class MyMenu extends JMenuBar {
         JMenu menu = new JMenu("Продукти");
         menu.setFont(fontMenu);
         Font fontItems = new Font("Verdana", Font.PLAIN, 11);
-        JMenuItem addGroup = new JMenuItem("Додати товар");
-        addGroup.setFont(fontItems);
-        menu.add(addGroup);
+        JMenuItem addProduct = new JMenuItem("Додати товар");
+        addProduct.setFont(fontItems);
+        menu.add(addProduct);
+        addProduct.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CreateProductDialog dialog = new CreateProductDialog("Створення товару");
+                dialog.setVisible(true);
+                Product product = dialog.getProduct();
+                if(product!=null) {
+                    try {
+                        shop.addProduct(product);
+                    } catch (ExceptionSameName exceptionSameName) {
+                        //fd
+                    }
+                }
+            }
+        });
 
-        JMenuItem delGroup = new JMenuItem("Видалити товар");
-        delGroup.setFont(fontItems);
-        menu.add(delGroup);
 
-        JMenuItem changeGroup = new JMenuItem("Редагувати товар");
-        changeGroup.setFont(fontItems);
-        menu.add(changeGroup);
+        JMenuItem delProduct = new JMenuItem("Видалити товар");
+        delProduct.setFont(fontItems);
+        menu.add(delProduct);
+
+        JMenuItem changeProduct = new JMenuItem("Редагувати товар");
+        changeProduct.setFont(fontItems);
+        menu.add(changeProduct);
 
         return menu;
     }
@@ -240,6 +256,124 @@ public class MyMenu extends JMenuBar {
 
         public ProductGroup getProductGroup() {
             return productGroup;
+        }
+    }
+
+    static class CreateProductDialog extends JDialog{
+        private Product product;
+        private JPanel panel;
+        private JComboBox<String> productGroupChoose;
+        private JTextField nameField;
+        private JTextField descriptionField;
+        private JTextField makerField;
+        private JTextField numberField;
+        private JTextField priceField;
+        private JButton buttonOk;
+        private JButton buttonCancel;
+        private Font font = new Font("Verdana", Font.PLAIN, 16);
+        private JDialog dialog;
+        public CreateProductDialog(String str){
+            super(frame,str,true);
+            dialog = this;
+            this.setLayout(new FlowLayout());
+            panel = getGroupPanel();
+            this.add(panel);
+            this.pack();
+            Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+            this.setLocation((int)dimension.getWidth()/2-this.getWidth()/2,(int)dimension.getHeight()/2-this.getHeight()/2);
+        }
+
+        private JPanel getGroupPanel() {
+            JPanel tempPanel = new JPanel(new GridLayout(7,2,40,20));
+            JLabel label0 = new JLabel("Виберіть групу товару");
+            label0.setFont(font);
+            tempPanel.add(label0);
+            String[] productGroupArr = new String[shop.getAllProductGroups().size()];
+            for(int i = 0; i< productGroupArr.length;i++){
+                productGroupArr[i] = shop.getAllProductGroups().get(i).getName();
+            }
+            productGroupChoose = new JComboBox<>(productGroupArr);
+            tempPanel.add(productGroupChoose);
+            JLabel label = new JLabel("Назва товару");
+            label.setFont(font);
+            tempPanel.add(label);
+            nameField = new JTextField();
+            tempPanel.add(nameField);
+            JLabel label2 = new JLabel("Опис групи товарів");
+            label2.setFont(font);
+            tempPanel.add(label2);
+            descriptionField = new JTextField();
+            tempPanel.add(descriptionField);
+            JLabel label3 = new JLabel("Виробник");
+            label3.setFont(font);
+            tempPanel.add(label3);
+            makerField = new JTextField();
+            tempPanel.add(makerField);
+
+            JLabel label4 = new JLabel("Кількість товару");
+            label4.setFont(font);
+            tempPanel.add(label4);
+            numberField = new JTextField();
+            tempPanel.add(numberField);
+
+            JLabel label5 = new JLabel("Ціна за одиницю товару");
+            label5.setFont(font);
+            tempPanel.add(label5);
+            priceField = new JTextField();
+            tempPanel.add(priceField);
+            buttonOk = new JButton("ОК");
+            tempPanel.add(buttonOk);
+            buttonOk.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String name = nameField.getText();
+                    String description = descriptionField.getText();
+                    String maker = makerField.getText();
+                    double price = getPrice(priceField.getText());
+                    ProductGroup productGroup = shop.getProductGroups().get(productGroupChoose.getItemAt(0));
+                    if(Laboratory.isWord(name) && price != -1){
+                        product = new Product(name,description,maker,0,price, productGroup);
+                        dialog.setVisible(false);
+                    }
+                }
+            });
+            buttonCancel = new JButton("Відмінити");
+            tempPanel.add(buttonCancel);
+            buttonCancel.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialog.setVisible(false);
+                }
+            });
+            return tempPanel;
+        }
+
+        private double getPrice(String text) {
+            double n;
+            try {
+                n = Double.valueOf(text);
+            }catch (Exception e){
+                return -1;
+            }
+
+            if(n <= 0) return -1;
+            return n;
+        }
+
+        private int getNumber(String text) {
+            int n;
+            try {
+                n = Integer.valueOf(text);
+            }catch (Exception e){
+                return -1;
+            }
+
+            if(n < 0) return -1;
+            return n;
+        }
+
+        public Product getProduct() {
+            return product;
         }
     }
 }
