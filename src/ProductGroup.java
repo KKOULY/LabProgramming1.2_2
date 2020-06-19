@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class ProductGroup {
+public class ProductGroup implements Serializable {
     private HashMap<String, Product> products = new HashMap<String, Product>();
     private String name;
     private String description;
