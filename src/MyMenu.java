@@ -323,7 +323,7 @@ public class MyMenu extends JMenuBar {
                     String description = descriptionField.getText();
                     String maker = makerField.getText();
                     double price = getPrice(priceField.getText());
-                    ProductGroup productGroup = shop.getProductGroups().get(productGroupChoose.getItemAt(0));
+                    ProductGroup productGroup = shop.getProductGroups().get(productGroupChoose.getSelectedItem());
                     if(Laboratory.isWord(name) && price != -1){
                         product = new Product(name,description,maker,0,price, productGroup);
                         dialog.setVisible(false);
