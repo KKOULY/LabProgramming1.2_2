@@ -51,7 +51,7 @@ public class MyMenu extends JMenuBar {
         });
         menu.add(infoAll);
 
-        JMenuItem infoAllGroups = new JMenuItem("Вивести всі товари");
+        JMenuItem infoAllGroups = new JMenuItem("Вивести всі групи товарів");
         infoAllGroups.setFont(fontItems);
         infoAllGroups.addActionListener(new ActionListener() {
             @Override
@@ -84,7 +84,7 @@ public class MyMenu extends JMenuBar {
             prodTableString[i][0] = productGroups.get(i).getName();
             prodTableString[i][1] = productGroups.get(i).getDescription();
         }
-        String[] columnsHeader = new String[]{"Назва","Опис"};
+        String[] columnsHeader = new String[]{"Назва групи","Опис"};
         JTable table = new JTable(prodTableString,columnsHeader);
         table.setEnabled(false);
         Font font = new Font("Verdana", Font.PLAIN, 15);
@@ -147,15 +147,16 @@ public class MyMenu extends JMenuBar {
 
     private JTable getTableAllProducts() {
         ArrayList<Product> products = shop.getAllProducts();
-        String[][] prodTableString = new String[products.size()][5];
+        String[][] prodTableString = new String[products.size()][6];
         for(int i = 0;i<prodTableString.length;i++){
             prodTableString[i][0] = products.get(i).getName();
             prodTableString[i][1] = products.get(i).getDescription();
             prodTableString[i][2] = products.get(i).getMaker();
             prodTableString[i][3] = products.get(i).getNumber() +" шт.";
             prodTableString[i][4] = products.get(i).getPrice() +" грн";
+            prodTableString[i][5] = products.get(i).getProductGroup().getName();
         }
-        String[] columnsHeader = new String[]{"Назва","Опис","Виробник","Кількість","Ціна"};
+        String[] columnsHeader = new String[]{"Назва товару","Опис","Виробник","Кількість","Ціна","Група товарів"};
         JTable table = new JTable(prodTableString,columnsHeader);
         table.setEnabled(false);
         Font font = new Font("Verdana", Font.PLAIN, 15);
