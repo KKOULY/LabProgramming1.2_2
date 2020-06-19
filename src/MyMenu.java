@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,22 +8,35 @@ import java.util.StringTokenizer;
 
 public class MyMenu extends JMenuBar {
     private JFrame frame;
-    private JButton infoItem;
     private JScrollPane panelInfo = new JScrollPane();
-    private Laboratory laboratory = new Laboratory();
+    private JPanel panel;
+    private JMenu menuInfo;
+    private JMenu menuProductGroups;
+    private JMenu menuProducts;
     private static HashMap<String, ProductGroup> allProducts = new HashMap<String, ProductGroup>();
+
+    Font fontMenu = new Font("Verdana", Font.PLAIN, 16);
     public MyMenu(JFrame frame){
         initLaboratory();
         this.frame = frame;
 
-        Font font = new Font("Verdana", Font.PLAIN, 16);
+        menuInfo = getInfoMenu();
+        this.add(menuInfo);
+        menuProductGroups = getProductsGroupMenu();
+        this.add(menuProductGroups);
+        menuProducts = getProductsMenu();
+        this.add(menuProducts);
 
+    }
+
+    private JMenu getInfoMenu() {
         JMenu menu = new JMenu("Інформація");
-        menu.setFont(font);
-        infoItem = new JButton("Інформація");
-        infoItem.setFont(font);
-        infoItem.setFocusPainted(false);
-        infoItem.addActionListener(new ActionListener() {
+        menu.setFont(fontMenu);
+
+        Font fontItems = new Font("Verdana", Font.PLAIN, 11);
+        JMenuItem infoAll = new JMenuItem("Вивести всі товари");
+        infoAll.setFont(fontItems);
+        infoAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(panelInfo != null) frame.remove(panelInfo);
@@ -36,8 +48,47 @@ public class MyMenu extends JMenuBar {
                 frame.revalidate();
             }
         });
-        this.add(infoItem);
+        menu.add(infoAll);
 
+        return menu;
+    }
+
+    private JMenu getProductsMenu() {
+        JMenu menu = new JMenu("Продукти");
+        menu.setFont(fontMenu);
+        Font fontItems = new Font("Verdana", Font.PLAIN, 11);
+        JMenuItem addGroup = new JMenuItem("Додати товар");
+        addGroup.setFont(fontItems);
+        menu.add(addGroup);
+
+        JMenuItem delGroup = new JMenuItem("Видалити товар");
+        delGroup.setFont(fontItems);
+        menu.add(delGroup);
+
+        JMenuItem changeGroup = new JMenuItem("Редагувати товар");
+        changeGroup.setFont(fontItems);
+        menu.add(changeGroup);
+
+        return menu;
+    }
+
+    private JMenu getProductsGroupMenu() {
+        JMenu menu = new JMenu("Групи");
+        menu.setFont(fontMenu);
+        Font fontItems = new Font("Verdana", Font.PLAIN, 11);
+        JMenuItem addGroup = new JMenuItem("Додати групу товарів");
+        addGroup.setFont(fontItems);
+        menu.add(addGroup);
+
+        JMenuItem delGroup = new JMenuItem("Видалити групу товарів");
+        delGroup.setFont(fontItems);
+        menu.add(delGroup);
+
+        JMenuItem changeGroup = new JMenuItem("Редагувати групу товарів");
+        changeGroup.setFont(fontItems);
+        menu.add(changeGroup);
+
+        return menu;
     }
 
     private JTable getTableAllProducts() {
