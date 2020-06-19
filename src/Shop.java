@@ -210,11 +210,14 @@ public class Shop {
      * @throws ExceptionSameName кидає помилку, якщо існує товар з такою назвою
      */
     public void addProduct(Product product) throws ExceptionSameName {
-        for (String key: productGroups.keySet()){
-            if (productGroups.get(key).getProducts().containsKey(product.getName())) throw new ExceptionSameName(product);
+        if(product != null) {
+            for (String key : productGroups.keySet()) {
+                if (productGroups.get(key).getProducts().containsKey(product.getName()))
+                    throw new ExceptionSameName(product);
+            }
+            productGroups.get(product.getProductGroup().getName()).getProducts().put(product.getName(), product);
+            save();
         }
-        productGroups.get(product.getProductGroup().getName()).getProducts().put(product.getName(),product);
-        save();
     }
 
     /**
