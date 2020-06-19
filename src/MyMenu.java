@@ -372,7 +372,7 @@ public class MyMenu extends JMenuBar {
         }
 
         private JPanel getGroupPanel() {
-            JPanel tempPanel = new JPanel(new GridLayout(7, 2, 40, 20));
+            JPanel tempPanel = new JPanel(new GridLayout(5, 1, 40, 20));
             JLabel label0 = new JLabel("Виберіть групу товару");
             label0.setFont(font);
             tempPanel.add(label0);
@@ -385,12 +385,14 @@ public class MyMenu extends JMenuBar {
             productGroupChoose.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    String[] productArr = new String[shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().size()];
-                    for (int i = 0; i<productArr.length;i++){
-                        productArr[i] = shop.getAllProducts().get(i).getName();
+                    HashMap<String,Product> productHashMap = shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts();
+                    ArrayList<String> productArrList = new ArrayList<>();
+                    System.out.println(productArrList);
+                    productChoose.removeAllItems();
+                    for(String s:productHashMap.keySet()){
+                       productChoose.addItem(s);
+                       System.out.print(s);
                     }
-                    productChoose = new JComboBox<>(productArr);
-                    tempPanel.repaint();
 
                 }
             });
