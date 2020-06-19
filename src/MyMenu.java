@@ -218,7 +218,7 @@ public class MyMenu extends JMenuBar {
                     frame.remove(panel);
                     frame.repaint();
                 }
-                JPanel panel = getBankPanel();
+                panel = getBankPanel();
                 frame.add(panel);
                 frame.revalidate();
             }
@@ -495,7 +495,10 @@ public class MyMenu extends JMenuBar {
                     for(String s:productHashMap.keySet()){
                         productChoose.addItem(s);
                     }
-
+                    nameField.setText(product.getName());
+                    tempPanel.add(descriptionField);
+                    makerField.setText(product.getMaker());
+                    priceField.setText(String.valueOf(product.getPrice()));
                 }
             });
             String[] productArr = new String[shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().size()];
@@ -504,26 +507,31 @@ public class MyMenu extends JMenuBar {
             }
             productChoose = new JComboBox<>(productArr);
             tempPanel.add(productChoose);
+            product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
             JLabel label = new JLabel("Назва товару");
             label.setFont(font);
             tempPanel.add(label);
             nameField = new JTextField();
             tempPanel.add(nameField);
+            nameField.setText(product.getName());
             JLabel label2 = new JLabel("Опис групи товарів");
             label2.setFont(font);
             tempPanel.add(label2);
             descriptionField = new JTextField();
             tempPanel.add(descriptionField);
+            descriptionField.setText(product.getDescription());
             JLabel label3 = new JLabel("Виробник");
             label3.setFont(font);
             tempPanel.add(label3);
             makerField = new JTextField();
             tempPanel.add(makerField);
+            makerField.setText(product.getMaker());
             JLabel label5 = new JLabel("Ціна за одиницю товару");
             label5.setFont(font);
             tempPanel.add(label5);
             priceField = new JTextField();
             tempPanel.add(priceField);
+            priceField.setText(String.valueOf(product.getPrice()));
             buttonOk = new JButton("ОК");
             tempPanel.add(buttonOk);
             buttonOk.addActionListener(new ActionListener() {
