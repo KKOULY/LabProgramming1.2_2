@@ -314,6 +314,9 @@ public class MyMenu extends JMenuBar {
                tempPanel.add(descriptionField);
                buttonOk = new JButton("ОК");
                tempPanel.add(buttonOk);
+
+                Color errorCol = new Color(255, 48, 48);
+                Color normalCol = descriptionField.getBackground();
                buttonOk.addActionListener(new ActionListener() {
                    @Override
                    public void actionPerformed(ActionEvent e) {
@@ -323,6 +326,9 @@ public class MyMenu extends JMenuBar {
                            productGroup = new ProductGroup(name,description);
                            dialog.setVisible(false);
                        }
+
+                       if(!Laboratory.isWord(name)) nameField.setBackground(errorCol);
+                       else nameField.setBackground(normalCol);
                    }
                });
                buttonCancel = new JButton("Відмінити");
@@ -398,6 +404,9 @@ public class MyMenu extends JMenuBar {
             tempPanel.add(priceField);
             buttonOk = new JButton("ОК");
             tempPanel.add(buttonOk);
+
+            Color errorCol = new Color(255, 48, 48);
+            Color normalCol = descriptionField.getBackground();
             buttonOk.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -410,6 +419,10 @@ public class MyMenu extends JMenuBar {
                         product = new Product(name,description,maker,0,price, productGroup);
                         dialog.setVisible(false);
                     }
+                    if(price == -1) priceField.setBackground(errorCol);
+                    else priceField.setBackground(normalCol);
+                    if(!Laboratory.isWord(name)) nameField.setBackground(errorCol);
+                    else nameField.setBackground(normalCol);
                 }
             });
             buttonCancel = new JButton("Відмінити");
