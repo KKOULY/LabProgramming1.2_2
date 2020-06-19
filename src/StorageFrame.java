@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class StorageFrame extends JFrame {
-    public static final int WIDTH = 900;
+    public static final int WIDTH = 1200;
     public static final int HEIGHT = 700;
 
 
