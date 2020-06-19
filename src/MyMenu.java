@@ -512,10 +512,12 @@ public class MyMenu extends JMenuBar {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
-                    nameField.setText(product.getName());
-                    descriptionField.setText(product.getDescription());
-                    makerField.setText(product.getMaker());
-                    priceField.setText(String.valueOf(product.getPrice()));
+                    if(product != null) {
+                        nameField.setText(product.getName());
+                        descriptionField.setText(product.getDescription());
+                        makerField.setText(product.getMaker());
+                        priceField.setText(String.valueOf(product.getPrice()));
+                    }
                 }
             });
             product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
