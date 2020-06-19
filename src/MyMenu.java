@@ -386,8 +386,6 @@ public class MyMenu extends JMenuBar {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     HashMap<String,Product> productHashMap = shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts();
-                    ArrayList<String> productArrList = new ArrayList<>();
-                    System.out.println(productArrList);
                     productChoose.removeAllItems();
                     for(String s:productHashMap.keySet()){
                        productChoose.addItem(s);
