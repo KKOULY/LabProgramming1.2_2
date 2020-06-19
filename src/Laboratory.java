@@ -41,14 +41,10 @@ public class Laboratory extends JFrame {
             shop.addProduct( shop.getProductGroups().get("Test"), "Новий", "Опис", "Рошен", 12, 12.5);
             shop.addProduct( shop.getProductGroups().get("Test"), "Ух", "Опис", "Рошен", 12, 12.5);
             shop.addProductGroup("Test1", "Test");
-            shop.addProduct(getProductGroups().get("Test1"), "Ух", "Опис", "Рошен", 16, 12.5);
+            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух", "Опис", "Рошен", 16, 12.5);
         } catch (ExceptionSameName exceptionSameName) {
             exceptionSameName.printStackTrace();
         }
-        System.out.println(shop.listOfProductsInAGroup(getProductGroups().get("Test")));
-    }
-
-    public static HashMap<String, ProductGroup> getProductGroups() {
-        return getProductGroups();
+        System.out.println(shop.listOfProductsInAGroup(shop.getProductGroups().get("Test")));
     }
 }
