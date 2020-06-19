@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,21 +57,23 @@ public class MyMenu extends JMenuBar {
 
     JTable findTable;
     private JPanel getFindPanel() {
-        JPanel tempPanel = new JPanel(new GridLayout(0,1,0,70));
-        JTextField findField = new JTextField(20);
-        tempPanel.add(findField,BorderLayout.WEST);
+        JPanel tempPanel = new JPanel(new BorderLayout());
+        tempPanel.setOpaque(false);
+
+        JPanel text = new JPanel(new GridLayout(1,2));
+        text.setOpaque(false);
+        JLabel label = new JLabel("Введіть назву");
+        text.add(label);
+        JTextField findField = new JTextField(10);
+        text.add(findField);
+
+        tempPanel.add(text,BorderLayout.NORTH);
+
         findTable = getTableProducts(new ArrayList<>());
-        tempPanel.add(findTable);
+        tempPanel.add(findTable,BorderLayout.SOUTH);
         findField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                ArrayList<Product> products = shop.findProduct(findField.getText());
-                System.out.println(findField.getText()+"--"+products);
-                tempPanel.remove(findTable);
-                findTable = getTableProducts(products);
-                tempPanel.add(findTable);
-                frame.revalidate();
-                frame.repaint();
             }
 
             @Override
@@ -80,7 +83,12 @@ public class MyMenu extends JMenuBar {
 
             @Override
             public void keyReleased(KeyEvent e) {
-
+                ArrayList<Product> products = shop.findProduct(findField.getText());
+                tempPanel.remove(findTable);
+                findTable = getTableProducts(products);
+                tempPanel.add(findTable);
+                frame.revalidate();
+                frame.repaint();
             }
         });
         return tempPanel;
@@ -101,6 +109,8 @@ public class MyMenu extends JMenuBar {
         table.setEnabled(false);
         Font font = new Font("Verdana", Font.PLAIN, 15);
         table.setFont(font);
+        table.setPreferredSize(new Dimension(700,500));
+        table.setOpaque(false);
         return table;
     }
 
