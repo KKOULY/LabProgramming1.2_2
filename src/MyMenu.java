@@ -35,12 +35,16 @@ public class MyMenu extends JMenuBar {
 
     private JMenu getFindMenu() {
         JMenu menu = new JMenu("Пошук");
+        menu.setFont(fontMenu);
         JMenuItem findItem = new JMenuItem("Пошук");
         findItem.setFont(fontMenu);
         findItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(panel!=null) frame.remove(panel);
+                if(panel!=null) {
+                   frame.remove(panel);
+                   frame.repaint();
+                }
                 panel = getFindPanel();
                 frame.add(panel);
                 frame.revalidate();
@@ -52,11 +56,11 @@ public class MyMenu extends JMenuBar {
 
     JTable findTable;
     private JPanel getFindPanel() {
-        JPanel tempPanel = new JPanel();
+        JPanel tempPanel = new JPanel(new GridLayout(0,1,0,30));
+        JTextField findField = new JTextField(20);
+        tempPanel.add(findField,BorderLayout.WEST);
         findTable = getTableProducts(new ArrayList<>());
         tempPanel.add(findTable);
-        JTextField findField = new JTextField(20);
-        tempPanel.add(findField);
         findField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -108,7 +112,10 @@ public class MyMenu extends JMenuBar {
         infoAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(panel != null) frame.remove(panel);
+                if(panel!=null) {
+                    frame.remove(panel);
+                    frame.repaint();
+                }
                 JTable table = getTableAllProducts();
                 panel = getScrollPanel(table);
                 frame.add(panel);
@@ -122,7 +129,10 @@ public class MyMenu extends JMenuBar {
         infoAllGroups.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(panel != null) frame.remove(panel);
+                if(panel!=null) {
+                    frame.remove(panel);
+                    frame.repaint();
+                }
                 JTable table = getTableAllGroups();
                 panel = getScrollPanel(table);
                 frame.add(panel);
