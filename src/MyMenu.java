@@ -13,6 +13,7 @@ public class MyMenu extends JMenuBar {
     private JMenu menuProductGroups;
     private JMenu menuProducts;
     private JMenu menuFind;
+    private JMenu menuMain;
     private static HashMap<String, ProductGroup> allProducts = new HashMap<String, ProductGroup>();
 
     Font fontMenu = new Font("Verdana", Font.PLAIN, 16);
@@ -20,6 +21,8 @@ public class MyMenu extends JMenuBar {
         initLaboratory();
         this.frame = frame;
 
+        menuMain = getMainMenu();
+        this.add(menuMain);
         menuInfo = getInfoMenu();
         this.add(menuInfo);
         menuProductGroups = getProductsGroupMenu();
@@ -31,11 +34,60 @@ public class MyMenu extends JMenuBar {
 
     }
 
+    private JMenu getMainMenu() {
+        JMenu menu = new JMenu("Головна");
+        menu.setFont(fontMenu);
+        menu.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(panel!=null) {
+                    frame.remove(panel);
+                    frame.repaint();
+                }
+                panel = getMainPanel();
+                frame.add(panel);
+                frame.revalidate();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        return menu;
+    }
+
+    private JPanel getMainPanel() {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Головна");
+        label.setFont(new Font("Verdana", Font.PLAIN, 20));
+        panel.add(label);
+        panel.setOpaque(false);
+        return panel;
+    }
+
     private JMenu getFindMenu() {
         JMenu menu = new JMenu("Пошук");
         menu.setFont(fontMenu);
         JMenuItem findItem = new JMenuItem("Пошук");
-        findItem.setFont(fontMenu);
+        Font fontItems = new Font("Verdana", Font.PLAIN, 11);
+        findItem.setFont(fontItems);
         findItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -157,7 +209,50 @@ public class MyMenu extends JMenuBar {
         });
         menu.add(infoAllGroups);
 
+        JMenuItem infoBank = new JMenuItem("Інформація по банку");
+        infoBank.setFont(fontItems);
+        infoBank.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(panel != null){
+                    frame.remove(panel);
+                    frame.repaint();
+                }
+                JPanel panel = getBankPanel();
+                frame.add(panel);
+                frame.revalidate();
+            }
+        });
+        menu.add(infoBank);
+
         return menu;
+    }
+
+    private JPanel getBankPanel() {
+        JPanel panel = new JPanel(new GridLayout(3,1,0,40));
+        panel.setOpaque(false);
+        JLabel label = new JLabel("Виберіть групу товарів");
+        panel.add(label);
+        label.setFont(fontMenu);
+        JComboBox<String> groupsComboBox = new JComboBox<>();
+        panel.add(groupsComboBox);
+        groupsComboBox.setFont(fontMenu);
+        groupsComboBox.addItem("Всі товари");
+        JLabel bank = new JLabel("Всього: "+shop.getAllBank()+" грн");
+        bank.setFont(fontMenu);
+        for(String key:shop.getProductGroups().keySet()){
+            groupsComboBox.addItem(key);
+        }
+        groupsComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String s = (String) groupsComboBox.getSelectedItem();
+                if(s.equals("Всі товари")) bank.setText("Всього: "+shop.getAllBank()+" грн");
+                else bank.setText("Всього: "+shop.getBankProductGroup(s)+" грн");
+            }
+        });
+        panel.add(bank);
+        return panel;
     }
 
     private JPanel getScrollPanel(JTable table) {

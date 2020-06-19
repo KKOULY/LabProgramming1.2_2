@@ -88,4 +88,12 @@ public class ProductGroup implements Serializable {
     public String toString() {
         return "Группа продуктів. Назва: "+ name + ". Опис: " + description +'.';
     }
+
+    public Double getBank() {
+        double bank = 0;
+        for(String key:products.keySet()){
+            bank+=(products.get(key).getNumber()*products.get(key).getPrice());
+        }
+        return bank;
+    }
 }
