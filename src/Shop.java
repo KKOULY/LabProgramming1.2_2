@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,6 +8,32 @@ public class Shop {
     public HashMap<String, ProductGroup> getProductGroups() {
         return productGroups;
     }
+
+    public void setProductGroups(HashMap<String, ProductGroup> productGroups) {
+        this.productGroups = productGroups;
+    }
+
+    public void save() {
+            try {
+                ObjectOutputStream saver = new ObjectOutputStream(new FileOutputStream("products.dat"));
+                saver.writeObject(productGroups);
+                saver.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+
+    public void load(){
+        try {
+            ObjectInputStream reader = new ObjectInputStream(new FileInputStream("products.dat"));
+            productGroups=(HashMap<String, ProductGroup>)reader.readObject();
+            reader.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     public ArrayList<Product> findProduct(String name){
     ArrayList<Product> products = new ArrayList<Product>();
