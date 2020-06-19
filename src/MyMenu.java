@@ -30,6 +30,8 @@ public class MyMenu extends JMenuBar {
                 if(panelInfo != null) frame.remove(panelInfo);
                 JTable table = getTableAllProducts();
                 panelInfo = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                panelInfo.setPreferredSize(new Dimension(frame.getWidth(),frame.getHeight()));
+                panelInfo.setMaximumSize(new Dimension((int) (frame.getWidth()*0.8),frame.getHeight()));
                 frame.add(panelInfo);
                 frame.revalidate();
             }
@@ -63,6 +65,12 @@ public class MyMenu extends JMenuBar {
             laboratory.addProduct(laboratory.getProductGroups().get("Test"), "Ух", "Опис", "Рошен", 12, 12.5);
             laboratory.addProductGroup("Test1", "Test");
             laboratory.addProduct(laboratory.getProductGroups().get("Test1"), "Ух1", "Опис", "Рошен", 16, 12.5);
+            laboratory.addProduct(laboratory.getProductGroups().get("Test1"), "Ух2", "Опис", "Рошен", 16, 12.5);
+            laboratory.addProduct(laboratory.getProductGroups().get("Test1"), "Ух3", "Опис", "Рошен", 16, 12.5);
+            laboratory.addProduct(laboratory.getProductGroups().get("Test1"), "Ух4", "Опис", "Рошен", 16, 12.5);
+            laboratory.addProduct(laboratory.getProductGroups().get("Test1"), "Ух5", "Опис", "Рошен", 16, 12.5);
+            laboratory.addProduct(laboratory.getProductGroups().get("Test1"), "Ух6", "Опис", "Рошен", 16, 12.5);
+            laboratory.addProduct(laboratory.getProductGroups().get("Test1"), "Ух7", "Опис", "Рошен", 16, 12.5);
         } catch (ExceptionSameName exceptionSameName) {
             exceptionSameName.printStackTrace();
         }
