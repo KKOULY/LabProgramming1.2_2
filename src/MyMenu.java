@@ -391,7 +391,6 @@ public class MyMenu extends JMenuBar {
                     productChoose.removeAllItems();
                     for(String s:productHashMap.keySet()){
                        productChoose.addItem(s);
-                       System.out.print(s);
                     }
 
                 }
