@@ -185,6 +185,18 @@ public class Shop {
     }
 
     /**
+     * Додає новий продукт
+     * @param product продукт
+     * @throws ExceptionSameName кидає помилку, якщо існує товар з такою назвою
+     */
+    public void addProduct(Product product) throws ExceptionSameName {
+        for (String key: productGroups.keySet()){
+            if (productGroups.get(key).getProducts().containsValue(product)) throw new ExceptionSameName(product);
+        }
+        productGroups.get(product.getProductGroup().getName()).getProducts().put(product.getName(),product);
+    }
+
+    /**
      * Видаляє групу продуктів
      * @param name назва групи продуктів
      */
