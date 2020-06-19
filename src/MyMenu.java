@@ -85,6 +85,14 @@ public class MyMenu extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 CreateGroupDialog dialog = new CreateGroupDialog("Створення групи товарів");
                 dialog.setVisible(true);
+                ProductGroup productGroup = dialog.getProductGroup();
+                if(productGroup!=null) {
+                    try {
+                        shop.addProductGroup(productGroup);
+                    } catch (ExceptionSameName exceptionSameName) {
+                        //fd
+                    }
+                }
             }
         });
 
@@ -116,7 +124,7 @@ public class MyMenu extends JMenuBar {
         table.setFont(font);
         return table;
     }
-    Shop shop = new Shop();
+    private static Shop shop = new Shop();
        private void initLaboratory() {
         try {
             shop.addProductGroup("Test", "Test");
@@ -143,9 +151,10 @@ public class MyMenu extends JMenuBar {
            private JButton buttonOk;
            private JButton buttonCancel;
            private Font font = new Font("Verdana", Font.PLAIN, 16);
-
+           private JDialog dialog;
            public CreateGroupDialog(String str){
                super(frame,str,true);
+               dialog = this;
                this.setLayout(new FlowLayout());
                panel = getGroupPanel();
                this.add(panel);
@@ -168,9 +177,30 @@ public class MyMenu extends JMenuBar {
                tempPanel.add(descriptionField);
                buttonOk = new JButton("ОК");
                tempPanel.add(buttonOk);
+               buttonOk.addActionListener(new ActionListener() {
+                   @Override
+                   public void actionPerformed(ActionEvent e) {
+                       String name = nameField.getText();
+                       String description = descriptionField.getText();
+                       if(Laboratory.isWord(name)){
+                           productGroup = new ProductGroup(name,description);
+                           dialog.setVisible(false);
+                       }
+                   }
+               });
                buttonCancel = new JButton("Відмінити");
                tempPanel.add(buttonCancel);
+               buttonCancel.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        dialog.setVisible(false);
+                    }
+               });
                return tempPanel;
             }
+
+        public ProductGroup getProductGroup() {
+            return productGroup;
+        }
     }
 }

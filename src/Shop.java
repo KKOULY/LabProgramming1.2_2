@@ -78,6 +78,12 @@ public class Shop {
         productGroups.put(productGroup.getName(), productGroup);
     }
 
+    public void addProductGroup(ProductGroup productGroup) throws ExceptionSameName{
+        if (productGroups.containsKey(productGroup.getName())) throw new ExceptionSameName(productGroup);
+        productGroups.put(productGroup.getName(), productGroup);
+    }
+
+
     public double priceOfAllProducts(){
         double price=0;
       for (Product p : getAllProducts()){
