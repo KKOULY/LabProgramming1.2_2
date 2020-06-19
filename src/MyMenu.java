@@ -56,6 +56,7 @@ public class MyMenu extends JMenuBar {
     }
 
     JTable findTable;
+    JPanel scrollPane;
     private JPanel getFindPanel() {
         JPanel tempPanel = new JPanel(new BorderLayout());
         tempPanel.setOpaque(false);
@@ -63,15 +64,19 @@ public class MyMenu extends JMenuBar {
         JPanel text = new JPanel(new GridLayout(1,2));
         text.setOpaque(false);
         JLabel label = new JLabel("Введіть назву");
+        label.setFont(fontMenu);
         label.setHorizontalAlignment(JLabel.CENTER);
         text.add(label);
         JTextField findField = new JTextField(10);
         text.add(findField);
+        findField.setOpaque(false);
 
         tempPanel.add(text,BorderLayout.NORTH);
 
         findTable = getTableProducts(new ArrayList<>());
-        tempPanel.add(findTable,BorderLayout.SOUTH);
+        scrollPane = getScrollPanel(findTable);
+        scrollPane.setOpaque(false);
+        tempPanel.add(scrollPane);
         findField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -85,9 +90,11 @@ public class MyMenu extends JMenuBar {
             @Override
             public void keyReleased(KeyEvent e) {
                 ArrayList<Product> products = shop.findProduct(findField.getText());
-                tempPanel.remove(findTable);
+                tempPanel.remove(scrollPane);
                 findTable = getTableProducts(products);
-                tempPanel.add(findTable);
+                scrollPane = getScrollPanel(findTable);
+                scrollPane.setOpaque(false);
+                tempPanel.add(scrollPane);
                 frame.revalidate();
                 frame.repaint();
             }
@@ -158,7 +165,7 @@ public class MyMenu extends JMenuBar {
     }
 
     private JPanel getScrollPanel(JTable table) {
-        JPanel panelTemp = new JPanel();
+        JPanel panelTemp;
         JScrollPane panelScroll = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         panelScroll.setPreferredSize(new Dimension((int) (frame.getWidth()*0.9), (frame.getHeight()-120)));
         panelTemp = new JPanel();
