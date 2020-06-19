@@ -12,6 +12,7 @@ public class MyMenu extends JMenuBar {
     private JMenu menuInfo;
     private JMenu menuProductGroups;
     private JMenu menuProducts;
+    private JMenu menuFind;
     private static HashMap<String, ProductGroup> allProducts = new HashMap<String, ProductGroup>();
 
     Font fontMenu = new Font("Verdana", Font.PLAIN, 16);
@@ -180,22 +181,24 @@ public class MyMenu extends JMenuBar {
         return table;
     }
     private static Shop shop = new Shop();
-       private void initLaboratory() {
-        try {
-            shop.addProductGroup("Test", "Test");
-            shop.addProduct(shop.getProductGroups().get("Test"), "Новий", "Опис", "Рошен", 12, 12.5);
-            shop.addProduct(shop.getProductGroups().get("Test"), "Ух", "Опис", "Рошен", 12, 12.5);
-            shop.addProductGroup("Test1", "Test");
-            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух1", "Опис", "Рошен", 16, 12.5);
-            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух2", "Опис", "Рошен", 16, 12.5);
-            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух3", "Опис", "Рошен", 16, 12.5);
-            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух4", "Опис", "Рошен", 16, 12.5);
-            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух5", "Опис", "Рошен", 16, 12.5);
-            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух6", "Опис", "Рошен", 16, 12.5);
-            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух7", "Опис", "Рошен", 16, 12.5);
-        } catch (ExceptionSameName exceptionSameName) {
-            exceptionSameName.printStackTrace();
-        }
+
+    private void initLaboratory() {
+//        try {
+//            shop.addProductGroup("Test", "Test");
+//            shop.addProduct(shop.getProductGroups().get("Test"), "Новий", "Опис", "Рошен", 12, 12.5);
+//            shop.addProduct(shop.getProductGroups().get("Test"), "Ух", "Опис", "Рошен", 12, 12.5);
+//            shop.addProductGroup("Test1", "Test");
+//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух1", "Опис", "Рошен", 16, 12.5);
+//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух2", "Опис", "Рошен", 16, 12.5);
+//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух3", "Опис", "Рошен", 16, 12.5);
+//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух4", "Опис", "Рошен", 16, 12.5);
+//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух5", "Опис", "Рошен", 16, 12.5);
+//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух6", "Опис", "Рошен", 16, 12.5);
+//            shop.addProduct(shop.getProductGroups().get("Test1"), "Ух7", "Опис", "Рошен", 16, 12.5);
+//        } catch (ExceptionSameName exceptionSameName) {
+//            exceptionSameName.printStackTrace();
+//        }
+        shop.load();
     }
 
     static class CreateGroupDialog extends JDialog{

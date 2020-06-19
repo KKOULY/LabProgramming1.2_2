@@ -25,6 +25,7 @@ public class Shop {
      */
     public void setProductGroups(HashMap<String, ProductGroup> productGroups) {
         this.productGroups = productGroups;
+        save();
     }
 
     /**
@@ -103,6 +104,7 @@ public class Shop {
                 else product.setNumber(product.getNumber()-numberOfSell);
             }
         }
+        save();
     }
 
     /**
@@ -116,6 +118,7 @@ public class Shop {
                product.setNumber(product.getNumber()+numberOfBuy);
             }
         }
+        save();
     }
 
     /**
@@ -128,6 +131,7 @@ public class Shop {
         ProductGroup productGroup = new ProductGroup(name, description);
         if (productGroups.containsKey(productGroup.getName())) throw new ExceptionSameName(productGroup);
         productGroups.put(productGroup.getName(), productGroup);
+        save();
     }
 
     /**
@@ -138,6 +142,7 @@ public class Shop {
     public void addProductGroup(ProductGroup productGroup) throws ExceptionSameName{
         if (productGroups.containsKey(productGroup.getName())) throw new ExceptionSameName(productGroup);
         productGroups.put(productGroup.getName(), productGroup);
+        save();
     }
 
     /**
@@ -182,6 +187,7 @@ public class Shop {
             if (productGroups.get(key).getProducts().containsKey(name)) throw new ExceptionSameName(product);
         }
         productGroups.get(productGroup.getName()).getProducts().put(product.getName(),product);
+        save();
     }
 
     /**
@@ -194,6 +200,7 @@ public class Shop {
             if (productGroups.get(key).getProducts().containsValue(product)) throw new ExceptionSameName(product);
         }
         productGroups.get(product.getProductGroup().getName()).getProducts().put(product.getName(),product);
+        save();
     }
 
     /**
@@ -202,6 +209,7 @@ public class Shop {
      */
     public void deleteProductGroup(String name){
         productGroups.remove(name);
+        save();
     }
 
     /**
@@ -211,6 +219,7 @@ public class Shop {
      */
     public void deleteProduct(ProductGroup productGroup, String name){
         productGroup.getProducts().remove(name);
+        save();
     }
 
     /**
@@ -221,6 +230,7 @@ public class Shop {
         for(String productGroupName: productGroups.keySet()){
             productGroups.get(productGroupName).getProducts().remove(name);
         }
+        save();
     }
 
     /**
