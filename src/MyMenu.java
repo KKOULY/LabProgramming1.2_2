@@ -64,7 +64,8 @@ public class MyMenu extends JMenuBar {
         addGroup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                JDialog
+                CreateGroupDialog dialog = new CreateGroupDialog("Створення групи товарів");
+                dialog.setVisible(true);
             }
         });
 
@@ -132,5 +133,43 @@ public class MyMenu extends JMenuBar {
         } catch (ExceptionSameName exceptionSameName) {
             exceptionSameName.printStackTrace();
         }
+    }
+
+    static class CreateGroupDialog extends JDialog{
+           private ProductGroup productGroup;
+           private JPanel panel;
+           private JTextField nameField;
+           private JTextField descriptionField;
+           private JButton buttonOk;
+           private JButton buttonCancel;
+           private Font font = new Font("Verdana", Font.PLAIN, 16);
+
+           public CreateGroupDialog(String str){
+               this.setTitle(str);
+               this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+               this.setSize(400,400);
+               panel = getGroupPanel();
+               this.add(panel);
+               this.pack();
+           }
+
+            private JPanel getGroupPanel() {
+               JPanel tempPanel = new JPanel(new GridLayout(3,2));
+               JLabel label = new JLabel("Назва групи товарів");
+               label.setFont(font);
+               tempPanel.add(label);
+               nameField = new JTextField();
+               tempPanel.add(nameField);
+               JLabel label2 = new JLabel("Опис групи товарів");
+               label2.setFont(font);
+               tempPanel.add(label2);
+               descriptionField = new JTextField();
+               tempPanel.add(descriptionField);
+               buttonOk = new JButton("OK");
+               tempPanel.add(buttonOk);
+               buttonCancel = new JButton("Cancel");
+               tempPanel.add(buttonCancel);
+               return panel;
+            }
     }
 }
