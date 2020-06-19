@@ -41,7 +41,7 @@ public class Shop {
     }
 
     /**
-     * Завантажує дані про могазин
+     * Завантажує дані про магазин
      */
     public void load(){
         try {
@@ -54,8 +54,8 @@ public class Shop {
     }
 
     /**
-     * Всі группи товарів
-     * @return  группи товарів
+     * Всі групи товарів
+     * @return  групи товарів
      */
     public ArrayList<ProductGroup> getAllProductGroups() {
         ArrayList<ProductGroup> productGroupsTemp = new ArrayList<ProductGroup>();
