@@ -204,7 +204,7 @@ public class MyMenu extends JMenuBar {
                     try {
                         shop.addProduct(product);
                     } catch (ExceptionSameName exceptionSameName) {
-                        //fd
+                        JOptionPane.showMessageDialog(null, exceptionSameName, "Помилка!", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -239,7 +239,7 @@ public class MyMenu extends JMenuBar {
                     try {
                         shop.addProductGroup(productGroup);
                     } catch (ExceptionSameName exceptionSameName) {
-                        //fd
+                        JOptionPane.showMessageDialog(null, exceptionSameName, "Помилка!", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }

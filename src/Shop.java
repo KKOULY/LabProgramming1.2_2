@@ -211,7 +211,7 @@ public class Shop {
      */
     public void addProduct(Product product) throws ExceptionSameName {
         for (String key: productGroups.keySet()){
-            if (productGroups.get(key).getProducts().containsValue(product)) throw new ExceptionSameName(product);
+            if (productGroups.get(key).getProducts().containsKey(product.getName())) throw new ExceptionSameName(product);
         }
         productGroups.get(product.getProductGroup().getName()).getProducts().put(product.getName(),product);
         save();

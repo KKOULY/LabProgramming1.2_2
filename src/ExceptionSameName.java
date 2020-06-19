@@ -3,9 +3,9 @@ public class ExceptionSameName extends Exception{
         super(message);
     }
     ExceptionSameName(Product product){
-        System.err.println("Існує продукт з такою назвою: "+product.getName());
+        super("Існує продукт з такою назвою: "+product.getName());
     }
     ExceptionSameName(ProductGroup productGroup){
-        System.err.println("Існує група продуктів з такою назвою: "+productGroup.getName());
+       super("Існує група продуктів з такою назвою: "+productGroup.getName());
     }
 }
