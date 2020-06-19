@@ -40,18 +40,56 @@ public class MyMenu extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 if(panel != null) frame.remove(panel);
                 JTable table = getTableAllProducts();
-                JScrollPane panelScroll = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                panelScroll.setPreferredSize(new Dimension((int) (frame.getWidth()*0.9), (frame.getHeight()-120)));
-                panel = new JPanel();
-                panel.setLayout(new BorderLayout());
-                panel.add(panelScroll,BorderLayout.CENTER);
+//                JScrollPane panelScroll = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//                panelScroll.setPreferredSize(new Dimension((int) (frame.getWidth()*0.9), (frame.getHeight()-120)));
+//                panel = new JPanel();
+//                panel.add(panelScroll);
+                panel = getScrollPanel(table);
                 frame.add(panel);
                 frame.revalidate();
             }
         });
         menu.add(infoAll);
 
+        JMenuItem infoAllGroups = new JMenuItem("Вивести всі товари");
+        infoAllGroups.setFont(fontItems);
+        infoAllGroups.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(panel != null) frame.remove(panel);
+                JTable table = getTableAllGroups();
+                panel = getScrollPanel(table);
+                frame.add(panel);
+                frame.revalidate();
+            }
+        });
+        menu.add(infoAllGroups);
+
         return menu;
+    }
+
+    private JPanel getScrollPanel(JTable table) {
+        JPanel panelTemp = new JPanel();
+        JScrollPane panelScroll = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        panelScroll.setPreferredSize(new Dimension((int) (frame.getWidth()*0.9), (frame.getHeight()-120)));
+        panelTemp = new JPanel();
+        panelTemp.add(panelScroll);
+        return panelTemp;
+    }
+
+    private JTable getTableAllGroups() {
+        ArrayList<ProductGroup> productGroups = shop.getAllProductGroups();
+        String[][] prodTableString = new String[productGroups.size()][2];
+        for(int i = 0;i<prodTableString.length;i++){
+            prodTableString[i][0] = productGroups.get(i).getName();
+            prodTableString[i][1] = productGroups.get(i).getDescription();
+        }
+        String[] columnsHeader = new String[]{"Назва","Опис"};
+        JTable table = new JTable(prodTableString,columnsHeader);
+        table.setEnabled(false);
+        Font font = new Font("Verdana", Font.PLAIN, 15);
+        table.setFont(font);
+        return table;
     }
 
     private JMenu getProductsMenu() {
