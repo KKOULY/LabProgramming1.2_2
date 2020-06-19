@@ -52,6 +52,7 @@ public class MyMenu extends JMenuBar {
         }
         String[] columnsHeader = new String[]{"Назва","Опис","Виробник","Кількість","Ціна"};
         JTable table = new JTable(prodTableString,columnsHeader);
+        table.setEnabled(false);
         Font font = new Font("Verdana", Font.PLAIN, 15);
         table.setFont(font);
         return table;
