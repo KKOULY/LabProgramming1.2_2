@@ -2,17 +2,34 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Клас для роботи з магазином
+ */
 public class Shop {
+    /**
+     * Всі группи продуктів магазину
+     */
     private HashMap<String, ProductGroup> productGroups = new HashMap<String, ProductGroup>();
 
+    /**
+     * Повертає группи продуктів магазину
+     * @return группи продуктів магазину
+     */
     public HashMap<String, ProductGroup> getProductGroups() {
         return productGroups;
     }
 
+    /**
+     * Встановлює нові группи продуктів магазину
+     * @param productGroups
+     */
     public void setProductGroups(HashMap<String, ProductGroup> productGroups) {
         this.productGroups = productGroups;
     }
 
+    /**
+     * Зберігає
+     */
     public void save() {
             try {
                 ObjectOutputStream saver = new ObjectOutputStream(new FileOutputStream("products.dat"));
@@ -33,6 +50,13 @@ public class Shop {
         }
     }
 
+    public ArrayList<ProductGroup> getAllProductGroups() {
+        ArrayList<ProductGroup> productGroupsTemp = new ArrayList<ProductGroup>();
+        for(String s:productGroups.keySet()){
+            productGroupsTemp.add(productGroups.get(s));
+        }
+        return productGroupsTemp;
+    }
 
 
     public ArrayList<Product> findProduct(String name){
