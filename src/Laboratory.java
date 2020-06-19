@@ -47,6 +47,7 @@ public class Laboratory extends JFrame {
             exceptionSameName.printStackTrace();
         }
         shop.buyProduct("Qeqwe",100);
-        System.out.println(shop.findProduct("Q"));
+        shop.save();
+        System.out.println(shop.allProductsList());
     }
 }
