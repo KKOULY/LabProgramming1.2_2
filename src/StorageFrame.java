@@ -20,7 +20,6 @@ public class StorageFrame extends JFrame {
 
     private void initAllElements() {
         this.setJMenuBar(new MyMenu(this));
-
     }
 
     public static void main(String[] args) {
