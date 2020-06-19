@@ -78,7 +78,6 @@ public class Laboratory extends JFrame {
             }
             if (wordList.charAt(i)==' ')  space=true;
         }
-        if (wordList.charAt(wordList.length()-1)==' ') return false;
         return true;
     }
 
