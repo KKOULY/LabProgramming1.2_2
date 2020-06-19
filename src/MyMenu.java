@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.StringTokenizer;
 
 public class MyMenu extends JMenuBar {
-    private JFrame frame;
+    private static JFrame frame;
     private JPanel panel;
     private JMenu menuInfo;
     private JMenu menuProductGroups;
@@ -61,13 +61,6 @@ public class MyMenu extends JMenuBar {
         JMenuItem addGroup = new JMenuItem("Додати товар");
         addGroup.setFont(fontItems);
         menu.add(addGroup);
-        addGroup.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CreateGroupDialog dialog = new CreateGroupDialog("Створення групи товарів");
-                dialog.setVisible(true);
-            }
-        });
 
         JMenuItem delGroup = new JMenuItem("Видалити товар");
         delGroup.setFont(fontItems);
@@ -87,6 +80,13 @@ public class MyMenu extends JMenuBar {
         JMenuItem addGroup = new JMenuItem("Додати групу товарів");
         addGroup.setFont(fontItems);
         menu.add(addGroup);
+        addGroup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CreateGroupDialog dialog = new CreateGroupDialog("Створення групи товарів");
+                dialog.setVisible(true);
+            }
+        });
 
         JMenuItem delGroup = new JMenuItem("Видалити групу товарів");
         delGroup.setFont(fontItems);
@@ -145,16 +145,17 @@ public class MyMenu extends JMenuBar {
            private Font font = new Font("Verdana", Font.PLAIN, 16);
 
            public CreateGroupDialog(String str){
-               this.setTitle(str);
-               this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-               this.setSize(400,400);
+               super(frame,str,true);
+               this.setLayout(new FlowLayout());
                panel = getGroupPanel();
                this.add(panel);
                this.pack();
+               Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+               this.setLocation((int)dimension.getWidth()/2-this.getWidth()/2,(int)dimension.getHeight()/2-this.getHeight()/2);
            }
 
             private JPanel getGroupPanel() {
-               JPanel tempPanel = new JPanel(new GridLayout(3,2));
+               JPanel tempPanel = new JPanel(new GridLayout(3,2,40,20));
                JLabel label = new JLabel("Назва групи товарів");
                label.setFont(font);
                tempPanel.add(label);
@@ -165,11 +166,11 @@ public class MyMenu extends JMenuBar {
                tempPanel.add(label2);
                descriptionField = new JTextField();
                tempPanel.add(descriptionField);
-               buttonOk = new JButton("OK");
+               buttonOk = new JButton("ОК");
                tempPanel.add(buttonOk);
-               buttonCancel = new JButton("Cancel");
+               buttonCancel = new JButton("Відмінити");
                tempPanel.add(buttonCancel);
-               return panel;
+               return tempPanel;
             }
     }
 }
