@@ -56,7 +56,7 @@ public class MyMenu extends JMenuBar {
 
     JTable findTable;
     private JPanel getFindPanel() {
-        JPanel tempPanel = new JPanel(new GridLayout(0,1,0,30));
+        JPanel tempPanel = new JPanel(new GridLayout(0,1,0,70));
         JTextField findField = new JTextField(20);
         tempPanel.add(findField,BorderLayout.WEST);
         findTable = getTableProducts(new ArrayList<>());
@@ -69,6 +69,8 @@ public class MyMenu extends JMenuBar {
                 tempPanel.remove(findTable);
                 findTable = getTableProducts(products);
                 tempPanel.add(findTable);
+                frame.revalidate();
+                frame.repaint();
             }
 
             @Override
