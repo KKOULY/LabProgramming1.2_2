@@ -8,7 +8,6 @@ import java.util.StringTokenizer;
 
 public class MyMenu extends JMenuBar {
     private JFrame frame;
-    private JScrollPane panelInfo = new JScrollPane();
     private JPanel panel;
     private JMenu menuInfo;
     private JMenu menuProductGroups;
@@ -39,12 +38,14 @@ public class MyMenu extends JMenuBar {
         infoAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(panelInfo != null) frame.remove(panelInfo);
+                if(panel != null) frame.remove(panel);
                 JTable table = getTableAllProducts();
-                panelInfo = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                panelInfo.setPreferredSize(new Dimension(frame.getWidth(),frame.getHeight()));
-                panelInfo.setMaximumSize(new Dimension((int) (frame.getWidth()*0.8),frame.getHeight()));
-                frame.add(panelInfo);
+                JScrollPane panelScroll = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                panelScroll.setPreferredSize(new Dimension((int) (frame.getWidth()*0.9), (frame.getHeight()-120)));
+                panel = new JPanel();
+                panel.setLayout(new BorderLayout());
+                panel.add(panelScroll,BorderLayout.CENTER);
+                frame.add(panel);
                 frame.revalidate();
             }
         });
@@ -60,6 +61,12 @@ public class MyMenu extends JMenuBar {
         JMenuItem addGroup = new JMenuItem("Додати товар");
         addGroup.setFont(fontItems);
         menu.add(addGroup);
+        addGroup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                JDialog
+            }
+        });
 
         JMenuItem delGroup = new JMenuItem("Видалити товар");
         delGroup.setFont(fontItems);
@@ -124,17 +131,6 @@ public class MyMenu extends JMenuBar {
             shop.addProduct(shop.getProductGroups().get("Test1"), "Ух7", "Опис", "Рошен", 16, 12.5);
         } catch (ExceptionSameName exceptionSameName) {
             exceptionSameName.printStackTrace();
-        }
-    }
-
-    private void fillPanelInfo() {
-        Font font = new Font("Verdana", Font.PLAIN, 11);
-
-        StringTokenizer stringTokenizer = new StringTokenizer(shop.listOfProductsInAGroup(allProducts.get("Test")),"\n");
-        while (stringTokenizer.hasMoreTokens()){
-            JLabel label = new JLabel(stringTokenizer.nextToken());
-            label.setFont(font);
-            panelInfo.add(label);
         }
     }
 }
