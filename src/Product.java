@@ -6,13 +6,24 @@ public class Product implements Serializable {
     private String maker;
     private int number;
     private double price;
-    public Product(String name, String description, String maker,int number, double price){
-    this.name=name;
-    this.description=description;
+    private ProductGroup productGroup;
+    public Product(String name, String description, String maker,int number, double price, ProductGroup productGroup){
+    this.name=getRightString(name);
+    this.description=getRightString(description);
     this.maker=maker;
     this.number=number;
     this.price=price;
+    this.productGroup = productGroup;
     }
+
+    private String getRightString(String name) {
+        String temp = name.toLowerCase();
+        if(temp.length()>0) {
+            temp = Character.toUpperCase(temp.charAt(0))+temp.substring(1,temp.length());
+        }
+        return temp;
+    }
+
     public String getName() {
         return name;
     }
@@ -50,6 +61,10 @@ public class Product implements Serializable {
 
     public double getPrice() {
         return price;
+    }
+
+    public ProductGroup getProductGroup() {
+        return productGroup;
     }
 
     public void setPrice(double price) {

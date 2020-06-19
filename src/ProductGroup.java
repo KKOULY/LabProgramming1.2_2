@@ -6,9 +6,18 @@ public class ProductGroup implements Serializable {
     private String name;
     private String description;
     public ProductGroup(String name, String description){
-        this.name=name;
-        this.description=description;
+        this.name=getRightString(name);
+        this.description=getRightString(description);
     }
+
+    private String getRightString(String name) {
+        String temp = name.toLowerCase();
+        if(temp.length()>0) {
+            temp = Character.toUpperCase(temp.charAt(0))+temp.substring(1,temp.length());
+        }
+        return temp;
+    }
+
     public String getDescription() {
         return description;
     }
