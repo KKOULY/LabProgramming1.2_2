@@ -358,15 +358,21 @@ public class ProductsMenu extends JMenu{
             }
             productChoose = new JComboBox<>(productArr);
             tempPanel.add(productChoose);
+            Color errorCol = new Color(255, 48, 48);
+            Color normalCol = productChoose.getBackground();
             productChoose.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
                     if(product != null) {
                         nameField.setText(product.getName());
+                        nameField.setBackground(normalCol);
                         descriptionField.setText(product.getDescription());
+                        descriptionField.setBackground(normalCol);
                         makerField.setText(product.getMaker());
+                        makerField.setBackground(normalCol);
                         priceField.setText(String.valueOf(product.getPrice()));
+                        priceField.setBackground(normalCol);
                     }
                 }
             });
@@ -397,8 +403,6 @@ public class ProductsMenu extends JMenu{
             priceField.setText(String.valueOf(product.getPrice()));
             buttonOk = new JButton("ОК");
             tempPanel.add(buttonOk);
-            Color errorCol = new Color(255, 48, 48);
-            Color normalCol = descriptionField.getBackground();
             buttonOk.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -408,28 +412,30 @@ public class ProductsMenu extends JMenu{
                     double price = getPrice(priceField.getText());
                     ProductGroup productGroup = shop.getProductGroups().get(productGroupChoose.getSelectedItem());
                     if(Tools.isWord(name) && price != -1){
-                        product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
-                        shop.deleteProduct(product.getName());
-                        Product deletedProduct = product;
+                        Product oldProduct=productGroup.getProducts().get(productChoose.getSelectedItem());
                         product = new Product(name,description,maker,0,price, productGroup);
-                        try {
-                            shop.addProduct(product);
-                        } catch (ExceptionSameName exceptionSameName) {
+                        if(!product.getName().toLowerCase().equals(oldProduct.getName().toLowerCase())&&shop.isContainsProductName(product.getName())){
+                            JOptionPane.showMessageDialog(null, new ExceptionSameName(product), "Помилка!", JOptionPane.ERROR_MESSAGE);
+                        }else {
+                            product.setNumber(oldProduct.getNumber());
+                            shop.deleteProduct(oldProduct.getName());
                             try {
-                                shop.addProduct(deletedProduct);
-                            } catch (ExceptionSameName sameName) {
-                                sameName.printStackTrace();
+                                shop.addProduct(product);
+                            } catch (ExceptionSameName exceptionSameName) {
+
                             }
-                            JOptionPane.showMessageDialog(null, exceptionSameName, "Помилка!", JOptionPane.ERROR_MESSAGE);
-                        } finally {
                             dialog.setVisible(false);
                         }
+
                     }
-                    if(price == -1) priceField.setBackground(errorCol);
+                    if(price == -1.0) priceField.setBackground(errorCol);
                     else priceField.setBackground(normalCol);
-                    if(!Tools.isWord(name) || shop.isContainsProductName(name)) nameField.setBackground(errorCol);
-                    else nameField.setBackground(normalCol);
-                    dialog.setVisible(false);
+                    Product product = shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
+                    if(product != null) {
+                        if (!name.toLowerCase().equals(product.getName().toLowerCase()) && shop.isContainsProductName(name))
+                            nameField.setBackground(errorCol);
+                        else nameField.setBackground(normalCol);
+                    }
                 }
             });
             buttonCancel = new JButton("Відмінити");
@@ -446,6 +452,7 @@ public class ProductsMenu extends JMenu{
             double n;
             try {
                 n = Double.valueOf(text);
+                System.out.println(n);
             }catch (Exception e){
                 return -1;
             }

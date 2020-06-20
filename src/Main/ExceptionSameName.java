@@ -4,7 +4,7 @@ public class ExceptionSameName extends Exception{
     ExceptionSameName(String message){
         super(message);
     }
-    ExceptionSameName(Product product){
+    public ExceptionSameName(Product product){
         super("Існує продукт з такою назвою: "+product.getName());
     }
     ExceptionSameName(ProductGroup productGroup){
