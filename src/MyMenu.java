@@ -313,7 +313,14 @@ public class MyMenu extends JMenuBar {
         delProduct.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (shop.getAllProducts().size()>0){
+                boolean noClearGroups=false;
+                for (ProductGroup productGroup :shop.getAllProductGroups()){
+                    if (productGroup.getProducts().size()>0){
+                        noClearGroups=true;
+                        break;
+                    }
+                }
+                if (noClearGroups) {
                     DeleteProductDialog dialog = new DeleteProductDialog("Видалити товар");
                     dialog.setVisible(true);
                 } else {
@@ -327,7 +334,14 @@ public class MyMenu extends JMenuBar {
         changeProduct.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (shop.getAllProducts().size()>0){
+                boolean noClearGroups=false;
+                for (ProductGroup productGroup :shop.getAllProductGroups()){
+                    if (productGroup.getProducts().size()>0){
+                        noClearGroups=true;
+                        break;
+                    }
+                }
+                if (noClearGroups) {
                 ChangeProductDialog dialog = new ChangeProductDialog("Редагувати товар");
                 dialog.setVisible(true);
                 } else {
@@ -581,7 +595,7 @@ public class MyMenu extends JMenuBar {
                         product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
                         shop.deleteProduct(product.getName());
                         Product deletedProduct = product;
-                        product = new Product(name,description,maker,deletedProduct.getNumber(),price, productGroup);
+                        product = new Product(name,description,maker,0,price, productGroup);
                         try {
                             shop.addProduct(product);
                         } catch (ExceptionSameName exceptionSameName) {
