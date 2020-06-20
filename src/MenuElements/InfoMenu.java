@@ -1,12 +1,14 @@
 package MenuElements;
 
 import Main.*;
-import Main.Tools.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class InfoMenu extends JMenu {
 
@@ -23,7 +25,7 @@ public class InfoMenu extends JMenu {
         this.panel = myMenu.getPanel();
         this.setFont(fontMenu);
         Font fontItems = new Font("Verdana", Font.PLAIN, 11);
-        JMenuItem infoAll = new JMenuItem("Вивести всі товари");
+        JMenuItem infoAll = new JMenuItem("Вивести товари");
         infoAll.setFont(fontItems);
         infoAll.addActionListener(new ActionListener() {
             @Override
@@ -32,8 +34,7 @@ public class InfoMenu extends JMenu {
                     frame.remove(myMenu.getPanel());
                     frame.repaint();
                 }
-                JTable table = Tools.getTableAllProducts(shop);
-                panel = Tools.getScrollPanel(table,frame);
+                panel = getProductsListTable();
                 frame.add(panel);
                 frame.revalidate();
                 myMenu.setPanel(panel);
@@ -75,5 +76,41 @@ public class InfoMenu extends JMenu {
             }
         });
         this.add(infoBank);
+    }
+    JTable productsTable;
+    JPanel scrollPane;
+    private JPanel getProductsListTable(){
+        JPanel tempPanel = new JPanel(new BorderLayout());
+        tempPanel.setOpaque(false);
+        JPanel text = new JPanel(new GridLayout(1,1));
+        JComboBox groupsComboBox = new JComboBox();
+        text.add(groupsComboBox);
+        groupsComboBox.setOpaque(false);
+        groupsComboBox.addItem("Всі товари");
+        for(String key:shop.getProductGroups().keySet()){
+            groupsComboBox.addItem(key);
+        }
+        tempPanel.add(text,BorderLayout.NORTH);
+        productsTable = Tools.getTableAllProducts(shop);
+        scrollPane = Tools.getScrollPanel(productsTable,frame);
+        scrollPane.setOpaque(false);
+        tempPanel.add(scrollPane);
+        groupsComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                tempPanel.remove(scrollPane);
+                if (groupsComboBox.getSelectedItem().equals("Всі товари")){
+                    productsTable=Tools.getTableAllGroups(shop);
+                }else {
+                    productsTable = Tools.getTableProductsOfGroup(shop.getProductGroups().get(groupsComboBox.getSelectedItem()));
+                }
+                scrollPane = Tools.getScrollPanel(productsTable,frame);
+                scrollPane.setOpaque(false);
+                tempPanel.add(scrollPane);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        return tempPanel;
     }
 }

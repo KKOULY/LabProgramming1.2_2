@@ -42,7 +42,27 @@ public class Tools {
         table.setFont(font);
         return table;
     }
-
+    public static JTable getTableProductsOfGroup(ProductGroup p){
+        ArrayList<Product> products = new ArrayList<Product>();
+        for (String key : p.getProducts().keySet()){
+            products.add(p.getProducts().get(key));
+        }
+        String[][] prodTableString = new String[products.size()][6];
+        for(int i = 0;i<prodTableString.length;i++){
+            prodTableString[i][0] = products.get(i).getName();
+            prodTableString[i][1] = products.get(i).getDescription();
+            prodTableString[i][2] = products.get(i).getMaker();
+            prodTableString[i][3] = products.get(i).getNumber() +" шт.";
+            prodTableString[i][4] = products.get(i).getPrice() +" грн";
+            prodTableString[i][5] = products.get(i).getProductGroup().getName();
+        }
+        String[] columnsHeader = new String[]{"Назва товару","Опис","Виробник","Кількість","Ціна","Група товарів"};
+        JTable table = new JTable(prodTableString,columnsHeader);
+        table.setEnabled(false);
+        Font font = new Font("Verdana", Font.PLAIN, 15);
+        table.setFont(font);
+        return table;
+    }
     public static JTable getTableAllProducts(Shop shop) {
         ArrayList<Product> products = shop.getAllProducts();
         String[][] prodTableString = new String[products.size()][6];
@@ -128,7 +148,7 @@ public class Tools {
      * @param name ім'я яке ввів користувач
      * @return перевірене ім'я
      */
-    static String getRightString(String name) {
+    public static String getRightString(String name) {
         String temp = name.toLowerCase();
         if(temp.length()>0) {
             temp = Character.toUpperCase(temp.charAt(0))+temp.substring(1,temp.length());
