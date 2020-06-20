@@ -97,4 +97,42 @@ public class Tools {
         panel.add(bank);
         return panel;
     }
+
+    public static boolean isWord(String word){
+        if (word.length()==0) return false;
+        for(int i =0; i<word.length(); i++) {
+            if (!Character.isLetter(word.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isWordList(String wordList){
+        if (wordList.charAt(0)==' ') return false;
+        if (wordList.charAt(wordList.length()-1)==' ') return false;
+        boolean space=false;
+        for(int i =0; i<wordList.length(); i++) {
+            if (space==true && wordList.charAt(i)==' ') return false;
+            else space=false;
+            if (!Character.isLetter(wordList.charAt(i)) && wordList.charAt(i)!=' ') {
+                return false;
+            }
+            if (wordList.charAt(i)==' ')  space=true;
+        }
+        return true;
+    }
+
+    /**
+     * Виправляє ім'я
+     * @param name ім'я яке ввів користувач
+     * @return перевірене ім'я
+     */
+    static String getRightString(String name) {
+        String temp = name.toLowerCase();
+        if(temp.length()>0) {
+            temp = Character.toUpperCase(temp.charAt(0))+temp.substring(1,temp.length());
+        }
+        return temp;
+    }
 }

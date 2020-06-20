@@ -17,22 +17,10 @@ public class ProductGroup implements Serializable {
      * @param description опис продукту
      */
     public ProductGroup(String name, String description){
-        this.name=getRightString(name);
-        this.description=getRightString(description);
+        this.name=Tools.getRightString(name);
+        this.description=Tools.getRightString(description);
     }
 
-    /**
-     * Коректує назву групи
-     * @param name назва яку ввели
-     * @return повертає правильну назву
-     */
-    private String getRightString(String name) {
-        String temp = name.toLowerCase();
-        if(temp.length()>0) {
-            temp = Character.toUpperCase(temp.charAt(0))+temp.substring(1,temp.length());
-        }
-        return temp;
-    }
 
     /**
      * Опис групи

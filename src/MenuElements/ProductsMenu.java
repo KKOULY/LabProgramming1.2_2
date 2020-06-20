@@ -159,13 +159,13 @@ public class ProductsMenu extends JMenu{
                     String maker = makerField.getText();
                     double price = getPrice(priceField.getText());
                     ProductGroup productGroup = shop.getProductGroups().get(productGroupChoose.getSelectedItem());
-                    if(Laboratory.isWord(name) && price != -1 && !shop.isContainsProductName(name)){
+                    if(Tools.isWord(name) && price != -1 && !shop.isContainsProductName(name)){
                         product = new Product(name,description,maker,0,price, productGroup);
                         dialog.setVisible(false);
                     }
                     if(price == -1) priceField.setBackground(errorCol);
                     else priceField.setBackground(normalCol);
-                    if(!Laboratory.isWord(name) || shop.isContainsProductName(name)) nameField.setBackground(errorCol);
+                    if(!Tools.isWord(name) || shop.isContainsProductName(name)) nameField.setBackground(errorCol);
                     else nameField.setBackground(normalCol);
                 }
             });
@@ -407,7 +407,7 @@ public class ProductsMenu extends JMenu{
                     String maker = makerField.getText();
                     double price = getPrice(priceField.getText());
                     ProductGroup productGroup = shop.getProductGroups().get(productGroupChoose.getSelectedItem());
-                    if(Laboratory.isWord(name) && price != -1){
+                    if(Tools.isWord(name) && price != -1){
                         product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
                         shop.deleteProduct(product.getName());
                         Product deletedProduct = product;
@@ -427,7 +427,7 @@ public class ProductsMenu extends JMenu{
                     }
                     if(price == -1) priceField.setBackground(errorCol);
                     else priceField.setBackground(normalCol);
-                    if(!Laboratory.isWord(name) || shop.isContainsProductName(name)) nameField.setBackground(errorCol);
+                    if(!Tools.isWord(name) || shop.isContainsProductName(name)) nameField.setBackground(errorCol);
                     else nameField.setBackground(normalCol);
                     dialog.setVisible(false);
                 }

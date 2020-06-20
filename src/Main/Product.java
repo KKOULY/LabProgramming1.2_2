@@ -23,25 +23,12 @@ public class Product implements Serializable {
      * @param productGroup  група цього продукту
      */
     public Product(String name, String description, String maker,int number, double price, ProductGroup productGroup){
-    this.name=getRightString(name);
-    this.description=getRightString(description);
+    this.name=Tools.getRightString(name);
+    this.description=Tools.getRightString(description);
     this.maker=maker;
     this.number=number;
     this.price=price;
     this.productGroup = productGroup;
-    }
-
-    /**
-     * Виправляє ім'я
-     * @param name ім'я яке ввів користувач
-     * @return перевірене ім'я
-     */
-    private String getRightString(String name) {
-        String temp = name.toLowerCase();
-        if(temp.length()>0) {
-            temp = Character.toUpperCase(temp.charAt(0))+temp.substring(1,temp.length());
-        }
-        return temp;
     }
 
     /**

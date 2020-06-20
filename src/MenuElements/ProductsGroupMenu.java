@@ -93,12 +93,12 @@ public class ProductsGroupMenu extends JMenu {
                 public void actionPerformed(ActionEvent e) {
                     String name = nameField.getText();
                     String description = descriptionField.getText();
-                    if(Laboratory.isWord(name) && !shop.isContainsProductGroupName(name)){
+                    if(Tools.isWord(name) && !shop.isContainsProductGroupName(name)){
                         productGroup = new ProductGroup(name,description);
                         dialog.setVisible(false);
                     }
 
-                    if(!Laboratory.isWord(name) || shop.isContainsProductGroupName(name)) nameField.setBackground(errorCol);
+                    if(!Tools.isWord(name) || shop.isContainsProductGroupName(name)) nameField.setBackground(errorCol);
                     else nameField.setBackground(normalCol);
                 }
             });

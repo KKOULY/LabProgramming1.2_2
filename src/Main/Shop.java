@@ -75,7 +75,7 @@ public class Shop {
      * @return продукти
      */
     public ArrayList<Product> findProduct(String name){
-        name = getRightString(name);
+        name = Tools.getRightString(name);
     ArrayList<Product> products = new ArrayList<Product>();
     for (Product p : getAllProducts()){
         boolean find = false;
@@ -93,19 +93,6 @@ public class Shop {
         }
     }
     return products;
-    }
-
-    /**
-     * Повертає нормальний вид назви
-     * @param name назва
-     * @return нормальний вид назви
-     */
-    private String getRightString(String name) {
-        String temp = name.toLowerCase();
-        if(temp.length()>0) {
-            temp = Character.toUpperCase(temp.charAt(0))+temp.substring(1,temp.length());
-        }
-        return temp;
     }
 
     /**
@@ -300,7 +287,7 @@ public class Shop {
     public boolean isContainsProductName(String s) {
         for (String key: productGroups.keySet()){
             for(String key2:productGroups.get(key).getProducts().keySet()){
-                if(productGroups.get(key).getProducts().get(key2).getName().equals(getRightString(s))) return true;
+                if(productGroups.get(key).getProducts().get(key2).getName().equals(Tools.getRightString(s))) return true;
             }
         }
         return false;
@@ -308,7 +295,7 @@ public class Shop {
 
     public boolean isContainsProductGroupName(String s) {
         for (String key: productGroups.keySet()){
-            if (productGroups.get(key).getName().equals(getRightString(s))) return true;
+            if (productGroups.get(key).getName().equals(Tools.getRightString(s))) return true;
         }
         return false;
     }
