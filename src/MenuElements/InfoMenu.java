@@ -10,12 +10,23 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+/**
+ * Клас меню інформації про магазин
+ */
 public class InfoMenu extends JMenu {
 
     private JPanel panel;
     private Font fontMenu;
     private JFrame frame;
     private Shop shop;
+
+    /**
+     * Конструктор меню інформації
+     * @param frame форма
+     * @param shop магазин
+     * @param fontMenu шрифт
+     * @param myMenu куди додати меню
+     */
     public InfoMenu(JFrame frame, Shop shop, Font fontMenu, MyMenu myMenu) {
         super("Інформація");
         this.shop = shop;
@@ -79,6 +90,11 @@ public class InfoMenu extends JMenu {
     }
     JTable productsTable;
     JPanel scrollPane;
+
+    /**
+     * Створює панель з таблицею всіх товарів в магазині та товарів однієї групи
+     * @return таблиця товарів
+     */
     private JPanel getProductsListTable(){
         JPanel tempPanel = new JPanel(new BorderLayout());
         tempPanel.setOpaque(false);

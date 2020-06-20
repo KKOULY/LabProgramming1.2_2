@@ -11,12 +11,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+/**
+ * Клас меню для пошуку товарів
+ */
 public class FindMenu extends JMenu {
     private JPanel panel;
     private Font fontMenu;
     private JFrame frame;
     private Shop shop;
 
+    /**
+     * Констурктор пошукового меню
+     * @param frame форма
+     * @param shop магазин
+     * @param font шрифт
+     * @param myMenu куди додати це меню
+     */
     public FindMenu(JFrame frame, Shop shop, Font font, MyMenu myMenu){
         super("Пошук");
         panel = myMenu.getPanel();
@@ -33,7 +43,6 @@ public class FindMenu extends JMenu {
                 if(myMenu.getPanel()!=null) {
                     frame.remove(myMenu.getPanel());
                     frame.repaint();
-                    frame.revalidate();
                 }
                 panel = getFindPanel();
                 frame.add(panel);
@@ -46,6 +55,11 @@ public class FindMenu extends JMenu {
 
     JTable findTable;
     JPanel scrollPane;
+
+    /**
+     * Створює пошукову панель
+     * @return пошукова панель
+     */
     private JPanel getFindPanel() {
         JPanel tempPanel = new JPanel(new BorderLayout());
         tempPanel.setOpaque(false);

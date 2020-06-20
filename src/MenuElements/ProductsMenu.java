@@ -8,12 +8,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
+/**
+ * Клас меню продуктів
+ */
 public class ProductsMenu extends JMenu{
 
     private static Font fontMenu;
     private static JFrame frame;
     private static Shop shop;
 
+    /**
+     * Конструктор меню продуктів
+     * @param frame форма
+     * @param shop магазин
+     * @param fontMenu шрифт
+     */
     public ProductsMenu(JFrame frame, Shop shop, Font fontMenu) {
         super("Продукти");
         this.shop = shop;
@@ -89,8 +98,168 @@ public class ProductsMenu extends JMenu{
                 }
             }
         });
+        JMenuItem buySellMenu = new JMenuItem("Продати/купити товар");
+        buySellMenu.setFont(fontItems);
+        this.add(buySellMenu);
+        buySellMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                boolean noClearGroups=false;
+                for (ProductGroup productGroup :shop.getAllProductGroups()){
+                    if (productGroup.getProducts().size()>0){
+                        noClearGroups=true;
+                        break;
+                    }
+                }
+                if (noClearGroups) {
+                BuySellDialog buySellDialog = new BuySellDialog("Продати/купити товар");
+                buySellDialog.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "В магазині немає товарів!", "Помилка!", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
 
+    /**
+     * Клас вікна для купівлі/продажу товару
+     */
+    static class BuySellDialog extends JDialog{
+        private Product product;
+        private JPanel panel;
+        private JComboBox<String> productGroupChoose;
+        private JComboBox<String> productChoose;
+        private JButton buttonBuy;
+        private JTextField numberOfProductsField;
+        private JButton buttonSell;
+        private Font font = new Font("Verdana", Font.PLAIN, 16);
+        private JDialog dialog;
+
+        /**
+         * Конструктор вікна
+         * @param str назва форми
+         */
+        public BuySellDialog(String str){
+            super(frame, str, true);
+            dialog = this;
+            this.setLayout(new FlowLayout());
+            panel = getGroupPanel();
+            this.add(panel);
+            this.pack();
+            Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+            this.setLocation((int) dimension.getWidth() / 2 - this.getWidth() / 2, (int) dimension.getHeight() / 2 - this.getHeight() / 2);
+        }
+
+        /**
+         * Ініціалізує панель для продажу та купівлі товару
+         * @return панель
+         */
+        private JPanel getGroupPanel() {
+            JPanel tempPanel = new JPanel(new GridLayout(5, 2, 40, 20));
+            int notEmptyGroup=0;
+            JLabel label2 = new JLabel("Назва групи товару");
+            label2.setFont(font);
+            tempPanel.add(label2);
+            for (ProductGroup productGroup : shop.getAllProductGroups()){
+                if (productGroup.getProducts().size()>0) notEmptyGroup++;
+            }
+            String[] productGroupArr = new String[notEmptyGroup];
+            int readyGroups=0;
+            for (int i = 0; i < shop.getAllProductGroups().size(); i++) {
+                if (shop.getAllProductGroups().get(i).getProducts().size()>0) {
+                    productGroupArr[readyGroups] = shop.getAllProductGroups().get(i).getName();
+                    readyGroups++;
+                }
+            }
+            productGroupChoose = new JComboBox<>(productGroupArr);
+            tempPanel.add(productGroupChoose);
+            productGroupChoose.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    HashMap<String,Product> productHashMap = shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts();
+                    productChoose.removeAllItems();
+                    for(String s:productHashMap.keySet()){
+                        productChoose.addItem(s);
+                    }
+                    product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
+
+                }
+            });
+            String[] productArr = new String[shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().size()];
+            for (int i = 0; i<productArr.length;i++){
+                productArr[i] = shop.getAllProducts().get(i).getName();
+            }
+            productChoose = new JComboBox<>(productArr);
+            JLabel label3 = new JLabel("Назва товару");
+            label3.setFont(font);
+            tempPanel.add(label3);
+            tempPanel.add(productChoose);
+            Color errorCol = new Color(255, 48, 48);
+            Color normalCol = productChoose.getBackground();
+            product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
+            JLabel label = new JLabel("Кількість товару на складі: ");
+            label.setFont(font);
+            tempPanel.add(label);
+            JLabel label1 = new JLabel(String.valueOf(product.getNumber()));
+            label1.setFont(font);
+            tempPanel.add(label1);
+            JLabel label4 = new JLabel("Скільки продати/купити: ");
+            label4.setFont(font);
+            tempPanel.add(label4);
+            numberOfProductsField=new JTextField();
+            tempPanel.add(numberOfProductsField);
+            buttonBuy = new JButton("Купити");
+            tempPanel.add(buttonBuy);
+            buttonBuy.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    int number = getNumber(numberOfProductsField.getText());
+                    if (number>=0) {
+                        shop.buyProduct(productChoose.getSelectedItem().toString(), number);
+                        dialog.setVisible(false);
+                    } else {
+                        numberOfProductsField.setBackground(errorCol);
+                    }
+                }
+            });
+            buttonSell = new JButton("Продати");
+            tempPanel.add(buttonSell);
+            buttonSell.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int number = getNumber(numberOfProductsField.getText());
+                    if (number>=0 && shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem()).getNumber()>=number) {
+                        shop.sellProduct(productChoose.getSelectedItem().toString(), number);
+                        dialog.setVisible(false);
+                    } else {
+                        numberOfProductsField.setBackground(errorCol);
+                    }
+                }
+            });
+            return tempPanel;
+        }
+
+        /**
+         * Повертає кількість товару та перевіряє чи ввели число
+         * @param text стрічка
+         * @return число
+         */
+        private int getNumber(String text) {
+            int n;
+            try {
+                n = Integer.valueOf(text);
+            }catch (Exception e){
+                return -1;
+            }
+
+            if(n < 0) return -1;
+            return n;
+        }
+    }
+
+    /**
+     * Вікно створення нового продукту
+     */
     static class CreateProductDialog extends JDialog{
         private Product product;
         private JPanel panel;
@@ -103,6 +272,11 @@ public class ProductsMenu extends JMenu{
         private JButton buttonCancel;
         private Font font = new Font("Verdana", Font.PLAIN, 16);
         private JDialog dialog;
+
+        /**
+         * Конструктор вікна
+         * @param str нозва вікна
+         */
         public CreateProductDialog(String str){
             super(frame,str,true);
             dialog = this;
@@ -114,6 +288,10 @@ public class ProductsMenu extends JMenu{
             this.setLocation((int)dimension.getWidth()/2-this.getWidth()/2,(int)dimension.getHeight()/2-this.getHeight()/2);
         }
 
+        /**
+         * Ініціалізує панель створення групи товару
+         * @return панель
+         */
         private JPanel getGroupPanel() {
             JPanel tempPanel = new JPanel(new GridLayout(7,2,40,20));
             JLabel label0 = new JLabel("Виберіть групу товару");
@@ -180,6 +358,11 @@ public class ProductsMenu extends JMenu{
             return tempPanel;
         }
 
+        /**
+         * Перевіряє чи ввели ціну, та повертає число
+         * @param text стрічка
+         * @return ціна
+         */
         private double getPrice(String text) {
             double n;
             try {
@@ -192,6 +375,11 @@ public class ProductsMenu extends JMenu{
             return n;
         }
 
+        /**
+         * Перевіряє чи ввели кількіть товару, та повертає число
+         * @param text стрічка
+         * @return кількість товару
+         */
         private int getNumber(String text) {
             int n;
             try {
@@ -204,11 +392,18 @@ public class ProductsMenu extends JMenu{
             return n;
         }
 
+        /**
+         * Повертає продукт
+         * @return продукт
+         */
         public Product getProduct() {
             return product;
         }
     }
 
+    /**
+     * Клас вікна видалення продукту
+     */
     static class DeleteProductDialog extends JDialog {
         private Product product;
         private JPanel panel;
@@ -219,6 +414,10 @@ public class ProductsMenu extends JMenu{
         private Font font = new Font("Verdana", Font.PLAIN, 16);
         private JDialog dialog;
 
+        /**
+         * Констрктор вікна видалення продукту
+         * @param str назва вікна
+         */
         public DeleteProductDialog(String str) {
             super(frame, str, true);
             dialog = this;
@@ -230,6 +429,10 @@ public class ProductsMenu extends JMenu{
             this.setLocation((int) dimension.getWidth() / 2 - this.getWidth() / 2, (int) dimension.getHeight() / 2 - this.getHeight() / 2);
         }
 
+        /**
+         * Ініціалізує панель видалення продукту
+         * @return панель
+         */
         private JPanel getGroupPanel() {
             JPanel tempPanel = new JPanel(new GridLayout(3, 2, 40, 20));
             JLabel label0 = new JLabel("Виберіть групу товару");
@@ -292,6 +495,9 @@ public class ProductsMenu extends JMenu{
         }
     }
 
+    /**
+     * Клас вікна редагування продукту
+     */
     static class ChangeProductDialog extends JDialog{
         private Product product;
         private JPanel panel;
@@ -305,6 +511,11 @@ public class ProductsMenu extends JMenu{
         private JTextField priceField;
         private Font font = new Font("Verdana", Font.PLAIN, 16);
         private JDialog dialog;
+
+        /**
+         * Конструктор вікна редагування продукту
+         * @param str назва вікна
+         */
         public ChangeProductDialog(String str){
             super(frame, str, true);
             dialog = this;
@@ -315,6 +526,11 @@ public class ProductsMenu extends JMenu{
             Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
             this.setLocation((int) dimension.getWidth() / 2 - this.getWidth() / 2, (int) dimension.getHeight() / 2 - this.getHeight() / 2);
         }
+
+        /**
+         * Ініціалізує панель редагування продукту
+         * @return панель
+         */
         private JPanel getGroupPanel() {
             JPanel tempPanel = new JPanel(new GridLayout(7, 2, 40, 20));
             JLabel label0 = new JLabel("Виберіть групу товару");
@@ -406,6 +622,7 @@ public class ProductsMenu extends JMenu{
             buttonOk.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    boolean add = false;
                     String name = nameField.getText();
                     String description = descriptionField.getText();
                     String maker = makerField.getText();
@@ -419,6 +636,7 @@ public class ProductsMenu extends JMenu{
                         }else {
                             product.setNumber(oldProduct.getNumber());
                             shop.deleteProduct(oldProduct.getName());
+                            add=true;
                             try {
                                 shop.addProduct(product);
                             } catch (ExceptionSameName exceptionSameName) {
@@ -428,13 +646,15 @@ public class ProductsMenu extends JMenu{
                         }
 
                     }
-                    if(price == -1.0) priceField.setBackground(errorCol);
-                    else priceField.setBackground(normalCol);
-                    if(product != null) {
-                        if (!name.toLowerCase().equals(oldProduct.getName().toLowerCase()) && shop.isContainsProductName(name)) {
-                            nameField.setBackground(errorCol);
-                            JOptionPane.showMessageDialog(null, new ExceptionSameName(product), "Помилка!", JOptionPane.ERROR_MESSAGE);
-                        }else nameField.setBackground(normalCol);
+                    if (!add) {
+                        if (price == -1.0) priceField.setBackground(errorCol);
+                        else priceField.setBackground(normalCol);
+                        if (product != null) {
+                            if (!name.toLowerCase().equals(oldProduct.getName().toLowerCase()) && shop.isContainsProductName(name)) {
+                                nameField.setBackground(errorCol);
+                                JOptionPane.showMessageDialog(null, new ExceptionSameName(product), "Помилка!", JOptionPane.ERROR_MESSAGE);
+                            } else nameField.setBackground(normalCol);
+                        }
                     }
                 }
             });
@@ -448,6 +668,12 @@ public class ProductsMenu extends JMenu{
             });
             return tempPanel;
         }
+
+        /**
+         * Перевіряє чи ввели ціну та повертає ціну
+          * @param text стрічка
+         * @return ціна
+         */
         private double getPrice(String text) {
             double n;
             try {
@@ -460,6 +686,12 @@ public class ProductsMenu extends JMenu{
             return n;
         }
 
+
+        /**
+         * Перевіряє чи ввели кількість продуктів та повертає кількість продуктів
+         * @param text стрічка
+         * @return кількість продуктів
+         */
         private int getNumber(String text) {
             int n;
             try {

@@ -7,12 +7,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Клас меню групи продуктів
+ */
 public class ProductsGroupMenu extends JMenu {
     private static JPanel panel;
     private static Font fontMenu;
     private static JFrame frame;
     private static Shop shop;
 
+    /**
+     * Конструктор меню групи продуктів
+     * @param frame форма
+     * @param shop магазин
+     * @param fontMenu шрифт
+     */
     public ProductsGroupMenu(JFrame frame, Shop shop, Font fontMenu) {
         super("Групи");
         this.shop = shop;
@@ -69,6 +78,9 @@ public class ProductsGroupMenu extends JMenu {
         });
     }
 
+    /**
+     * Клас створення нової групи
+     */
     static class CreateGroupDialog extends JDialog{
         private ProductGroup productGroup;
         private JPanel panel;
@@ -78,6 +90,11 @@ public class ProductsGroupMenu extends JMenu {
         private JButton buttonCancel;
         private Font font = new Font("Verdana", Font.PLAIN, 16);
         private JDialog dialog;
+
+        /**
+         * Ініціалізує форму створення групи
+         * @param str назва
+         */
         public CreateGroupDialog(String str){
             super(frame,str,true);
             dialog = this;
@@ -89,6 +106,10 @@ public class ProductsGroupMenu extends JMenu {
             this.setLocation((int)dimension.getWidth()/2-this.getWidth()/2,(int)dimension.getHeight()/2-this.getHeight()/2);
         }
 
+        /**
+         * Повертає панель для створення групи
+         * @return панель для створення групи
+         */
         private JPanel getGroupPanel() {
             JPanel tempPanel = new JPanel(new GridLayout(3,2,40,20));
             JLabel label = new JLabel("Назва групи товарів");
@@ -133,10 +154,18 @@ public class ProductsGroupMenu extends JMenu {
             return tempPanel;
         }
 
+        /**
+         * Повертає групу продуктів
+         * @return група продуктів
+         */
         public ProductGroup getProductGroup() {
             return productGroup;
         }
     }
+
+    /**
+     * Класс форми видалення групи
+     */
     static class DeleteGroupDialog extends JDialog{
         private JPanel panel;
         private JButton buttonOk;
@@ -144,6 +173,11 @@ public class ProductsGroupMenu extends JMenu {
         private JComboBox<String> productGroupChoose;
         private Font font = new Font("Verdana", Font.PLAIN, 16);
         private JDialog dialog;
+
+        /**
+         * Ініціалізує форму видалення групи
+         * @param str назва форми
+         */
         public DeleteGroupDialog(String str){
             super(frame,str,true);
             dialog = this;
@@ -155,6 +189,10 @@ public class ProductsGroupMenu extends JMenu {
             this.setLocation((int)dimension.getWidth()/2-this.getWidth()/2,(int)dimension.getHeight()/2-this.getHeight()/2);
         }
 
+        /**
+         * Створює панель для видалення групи
+         * @return панель
+         */
         private JPanel getGroupPanel() {
             JPanel tempPanel = new JPanel(new GridLayout(2,2,40,20));
             JLabel label = new JLabel("Група товарів");
@@ -186,6 +224,10 @@ public class ProductsGroupMenu extends JMenu {
             return tempPanel;
         }
     }
+
+    /**
+     * Клас форми редагування групи
+     */
     static class ChangeGroupDialog extends JDialog{
         private ProductGroup productGroup;
         private JPanel panel;
@@ -196,6 +238,11 @@ public class ProductsGroupMenu extends JMenu {
         private JComboBox<String> productGroupChoose;
         private Font font = new Font("Verdana", Font.PLAIN, 16);
         private JDialog dialog;
+
+        /**
+         * Ініціалізує форму видалення групи
+         * @param str назва форми
+         */
         public ChangeGroupDialog(String str){
             super(frame,str,true);
             dialog = this;
@@ -207,6 +254,10 @@ public class ProductsGroupMenu extends JMenu {
             this.setLocation((int)dimension.getWidth()/2-this.getWidth()/2,(int)dimension.getHeight()/2-this.getHeight()/2);
         }
 
+        /**
+         * Створює панель редагування групи
+         * @return панель
+         */
         private JPanel getGroupPanel() {
             JPanel tempPanel = new JPanel(new GridLayout(4,3,40,20));
             JLabel label = new JLabel("Група товарів");

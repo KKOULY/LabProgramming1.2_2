@@ -6,8 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Клас з корисними методами
+ */
 public class Tools {
-
+    /**
+     * Повертає таблицю продуктів
+     * @param products продукти для таблиці
+     * @return таблиця продуктів
+     */
     public static JTable getTableProducts(ArrayList<Product> products) {
         String[][] prodTableString = new String[products.size()][6];
         for(int i = 0;i<prodTableString.length;i++){
@@ -28,6 +35,11 @@ public class Tools {
         return table;
     }
 
+    /**
+     * Повертає таблицю з усіма групами продуктів магазину
+     * @param shop магазин
+     * @return таблиця з усіма групами продуктів магазин
+     */
     public static JTable getTableAllGroups(Shop shop) {
         ArrayList<ProductGroup> productGroups = shop.getAllProductGroups();
         String[][] prodTableString = new String[productGroups.size()][2];
@@ -42,6 +54,12 @@ public class Tools {
         table.setFont(font);
         return table;
     }
+
+    /**
+     * Повертає таблицю усіх продуктів в групі
+     * @param p група продуктів
+     * @return таблиця усіх продуктів в групі
+     */
     public static JTable getTableProductsOfGroup(ProductGroup p){
         ArrayList<Product> products = new ArrayList<Product>();
         for (String key : p.getProducts().keySet()){
@@ -63,6 +81,12 @@ public class Tools {
         table.setFont(font);
         return table;
     }
+
+    /**
+     * Повертає таблицю з усіма продуктами в магазині
+     * @param shop магазин
+     * @return таблиця з усіма продуктами в магазині
+     */
     public static JTable getTableAllProducts(Shop shop) {
         ArrayList<Product> products = shop.getAllProducts();
         String[][] prodTableString = new String[products.size()][6];
@@ -82,6 +106,12 @@ public class Tools {
         return table;
     }
 
+    /**
+     * Скрол для табліці
+     * @param table таблиця
+     * @param frame форма
+     * @return таблиця з скролом
+     */
     public static JPanel getScrollPanel(JTable table, JFrame frame) {
         JPanel panelTemp;
         JScrollPane panelScroll = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -91,6 +121,12 @@ public class Tools {
         return panelTemp;
     }
 
+    /**
+     * Повертає панель, яка показує ціну за всі продукти в машазині або в одний групі
+     * @param fontMenu шрифт
+     * @param shop магазин
+     * @return панель, яка показує ціну за всі продукти в машазині або в одний групі
+     */
     public static JPanel getBankPanel(Font fontMenu, Shop shop) {
         JPanel panel = new JPanel(new GridLayout(3,1,0,40));
         panel.setOpaque(false);
@@ -118,6 +154,11 @@ public class Tools {
         return panel;
     }
 
+    /**
+     * Перевіряє чи є стрічка словом
+     * @param word стрічка
+     * @return є словом чи ні
+     */
     public static boolean isWord(String word){
         if (word.length()==0) return false;
         for(int i =0; i<word.length(); i++) {
@@ -128,6 +169,11 @@ public class Tools {
         return true;
     }
 
+    /**
+     * Чи є стрічка реченням
+     * @param wordList стрічка
+     * @return є чи ні
+     */
     public static boolean isWordList(String wordList){
         if (wordList.charAt(0)==' ') return false;
         if (wordList.charAt(wordList.length()-1)==' ') return false;

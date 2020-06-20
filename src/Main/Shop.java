@@ -284,6 +284,11 @@ public class Shop {
         return list;
     }
 
+    /**
+     * Перевіряє чи зайняте ім'я продукту
+     * @param s ім'я для перевірки
+     * @return зайняте чи ні
+     */
     public boolean isContainsProductName(String s) {
         for (String key: productGroups.keySet()){
             for(String key2:productGroups.get(key).getProducts().keySet()){
@@ -293,6 +298,11 @@ public class Shop {
         return false;
     }
 
+    /**
+     * Перевіряє чи зайняте ім'я групи продуктів
+     * @param s ім'я для перевірки
+     * @return зайняте чи ні
+     */
     public boolean isContainsProductGroupName(String s) {
         for (String key: productGroups.keySet()){
             if (productGroups.get(key).getName().equals(Tools.getRightString(s))) return true;
@@ -300,6 +310,10 @@ public class Shop {
         return false;
     }
 
+    /**
+     * Повертає ціну за всі продукти в магазині
+     * @return ціна за всі продукти в магазині
+     */
     public Double getAllBank() {
         Double bank = 0.0;
         for(String key:productGroups.keySet()){
@@ -308,6 +322,11 @@ public class Shop {
         return bank;
     }
 
+    /**
+     * Повертає ціну за всі продукти в групі магазину
+     * @param key назва групи магазину
+     * @return ціна за всі продукти в групі магазині
+     */
     public Double getBankProductGroup(String key) {
         return productGroups.get(key).getBank();
     }
