@@ -1,3 +1,5 @@
+package Main;
+
 public class ExceptionSameName extends Exception{
     ExceptionSameName(String message){
         super(message);
