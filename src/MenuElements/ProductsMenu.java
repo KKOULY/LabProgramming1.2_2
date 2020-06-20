@@ -411,11 +411,11 @@ public class ProductsMenu extends JMenu{
                     String maker = makerField.getText();
                     double price = getPrice(priceField.getText());
                     ProductGroup productGroup = shop.getProductGroups().get(productGroupChoose.getSelectedItem());
+
+                    Product oldProduct=productGroup.getProducts().get(productChoose.getSelectedItem());
+                    product = new Product(name,description,maker,0,price, productGroup);
                     if(Tools.isWord(name) && price != -1){
-                        Product oldProduct=productGroup.getProducts().get(productChoose.getSelectedItem());
-                        product = new Product(name,description,maker,0,price, productGroup);
                         if(!product.getName().toLowerCase().equals(oldProduct.getName().toLowerCase())&&shop.isContainsProductName(product.getName())){
-                            JOptionPane.showMessageDialog(null, new ExceptionSameName(product), "Помилка!", JOptionPane.ERROR_MESSAGE);
                         }else {
                             product.setNumber(oldProduct.getNumber());
                             shop.deleteProduct(oldProduct.getName());
@@ -430,11 +430,11 @@ public class ProductsMenu extends JMenu{
                     }
                     if(price == -1.0) priceField.setBackground(errorCol);
                     else priceField.setBackground(normalCol);
-                    Product product = shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
                     if(product != null) {
-                        if (!name.toLowerCase().equals(product.getName().toLowerCase()) && shop.isContainsProductName(name))
+                        if (!name.toLowerCase().equals(oldProduct.getName().toLowerCase()) && shop.isContainsProductName(name)) {
                             nameField.setBackground(errorCol);
-                        else nameField.setBackground(normalCol);
+                            JOptionPane.showMessageDialog(null, new ExceptionSameName(product), "Помилка!", JOptionPane.ERROR_MESSAGE);
+                        }else nameField.setBackground(normalCol);
                     }
                 }
             });
@@ -452,7 +452,6 @@ public class ProductsMenu extends JMenu{
             double n;
             try {
                 n = Double.valueOf(text);
-                System.out.println(n);
             }catch (Exception e){
                 return -1;
             }
