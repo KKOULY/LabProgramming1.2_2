@@ -1,6 +1,3 @@
-package Main;
-
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +50,7 @@ public class Shop {
             productGroups=(HashMap<String, ProductGroup>)reader.readObject();
             reader.close();
         } catch (IOException | ClassNotFoundException e) {
-//            e.printStackTrace();
+
         }
     }
 
