@@ -11,6 +11,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+/**
+ * Меню історії продаж
+ */
 public class MainMenu extends JMenu {
     JPanel panel;
     MyMenu myMenu;

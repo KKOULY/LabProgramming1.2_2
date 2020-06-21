@@ -3,6 +3,9 @@ package Main;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Класс який зберігає інформацію про товар, що був змінений
+ */
 public class TransactionInfo implements Serializable {
     private Date date;
     private String nameProduct;

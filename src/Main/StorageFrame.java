@@ -6,11 +6,18 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Класс головного вікна
+ * @author Soloviov
+ * @author Serdyuk
+ */
 public class StorageFrame extends JFrame {
     public static final int WIDTH = 1200;
     public static final int HEIGHT = 700;
 
-
+    /**
+     * Конструктор вікна
+     */
     public StorageFrame(){
         super("Склад");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -24,10 +31,16 @@ public class StorageFrame extends JFrame {
 
     }
 
+    /**
+     * Ініціалізація меню бар
+     */
     private void initAllElements() {
         this.setJMenuBar(new MyMenu(this));
     }
 
+    /**
+     * Класс який малює задній фон
+     */
     class BgPanel extends JPanel{
         public void paintComponent(Graphics g){
             Image im = null;
@@ -38,6 +51,10 @@ public class StorageFrame extends JFrame {
         }
     }
 
+    /**
+     * Main класс
+     * @param args аргументи
+     */
     public static void main(String[] args) {
         StorageFrame frame = new StorageFrame();
         frame.setVisible(true);

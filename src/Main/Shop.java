@@ -29,7 +29,7 @@ public class Shop {
 
     /**
      * Встановлює нові группи продуктів магазину
-     * @param productGroups
+     * @param productGroups групи продуктів
      */
     public void setProductGroups(HashMap<String, ProductGroup> productGroups) {
         this.productGroups = productGroups;
@@ -346,10 +346,18 @@ public class Shop {
         return productGroups.get(key).getBank();
     }
 
+    /**
+     * Повертає історію транзакцій
+     * @return ліст історії транзакцій
+     */
     public ArrayList<TransactionInfo> getTransactionHistory() {
         return transactionHistory;
     }
 
+    /**
+     * Повертає прибуток
+     * @return profit
+     */
     public Double getProfit() {
         return profit;
     }

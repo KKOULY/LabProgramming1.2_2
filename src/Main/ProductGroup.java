@@ -79,6 +79,10 @@ public class ProductGroup implements Serializable {
         return "Группа продуктів. Назва: "+ name + ". Опис: " + description +'.';
     }
 
+    /**
+     * Повертає загальну суму товарів
+     * @return загальну суму товарів
+     */
     public Double getBank() {
         double bank = 0;
         for(String key:products.keySet()){
