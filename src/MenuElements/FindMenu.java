@@ -5,10 +5,7 @@ import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
@@ -34,12 +31,9 @@ public class FindMenu extends JMenu {
         this.frame = frame;
         this.shop = shop;
         this.setFont(fontMenu);
-        JMenuItem findItem = new JMenuItem("Пошук");
-        Font fontItems = new Font("Verdana", Font.PLAIN, 11);
-        findItem.setFont(fontItems);
-        findItem.addActionListener(new ActionListener() {
+        this.addMouseListener(new MouseListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseClicked(MouseEvent e) {
                 if(myMenu.getPanel()!=null) {
                     frame.remove(myMenu.getPanel());
                     frame.repaint();
@@ -49,8 +43,27 @@ public class FindMenu extends JMenu {
                 frame.revalidate();
                 myMenu.setPanel(panel);
             }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
         });
-        this.add(findItem);
     }
 
     JTable findTable;

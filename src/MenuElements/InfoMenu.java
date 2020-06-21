@@ -58,8 +58,8 @@ public class InfoMenu extends JMenu {
         infoAllGroups.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(panel!=null) {
-                    frame.remove(panel);
+                if(myMenu.getPanel()!=null) {
+                    frame.remove(myMenu.getPanel());
                     frame.repaint();
                 }
                 JTable table = Tools.getTableAllGroups(shop);
@@ -76,8 +76,8 @@ public class InfoMenu extends JMenu {
         infoBank.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(panel != null){
-                    frame.remove(panel);
+                if(myMenu.getPanel()!=null) {
+                    frame.remove(myMenu.getPanel());
                     frame.repaint();
                 }
                 panel = Tools.getBankPanel(fontMenu, shop);
