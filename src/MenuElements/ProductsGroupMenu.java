@@ -137,9 +137,12 @@ public class ProductsGroupMenu extends JMenu {
                         dialog.setVisible(false);
                     }
 
-                    if(!Tools.isWord(name) || shop.isContainsProductGroupName(name)) nameField.setBackground(errorCol);
-                    name=Tools.getRightString(name);
-                    if (shop.isContainsProductGroupName(name))   JOptionPane.showMessageDialog(null, "Існує продукт з такою назвою: "+name, "Помилка!", JOptionPane.ERROR_MESSAGE);
+                    if(!Tools.isWord(name) || shop.isContainsProductGroupName(name)) {
+                        nameField.setBackground(errorCol);
+                        name = Tools.getRightString(name);
+                        if (shop.isContainsProductGroupName(name))
+                            JOptionPane.showMessageDialog(null, "Існує продукт з такою назвою: " + name, "Помилка!", JOptionPane.ERROR_MESSAGE);
+                    }
                     else nameField.setBackground(normalCol);
                 }
             });
