@@ -116,7 +116,7 @@ public class InfoMenu extends JMenu {
             public void actionPerformed(ActionEvent actionEvent) {
                 tempPanel.remove(scrollPane);
                 if (groupsComboBox.getSelectedItem().equals("Всі товари")){
-                    productsTable=Tools.getTableAllGroups(shop);
+                    productsTable=Tools.getTableAllProducts(shop);
                 }else {
                     productsTable = Tools.getTableProductsOfGroup(shop.getProductGroups().get(groupsComboBox.getSelectedItem()));
                 }
