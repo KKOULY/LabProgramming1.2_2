@@ -585,7 +585,7 @@ public class ProductsMenu extends JMenu{
             productChoose = new JComboBox<>(productArr);
             tempPanel.add(productChoose);
             Color errorCol = new Color(255, 48, 48);
-            Color normalCol = productChoose.getBackground();
+            Color normalCol = new Color(255, 255, 255);
             productChoose.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
