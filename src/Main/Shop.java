@@ -3,6 +3,7 @@ package Main;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -13,6 +14,10 @@ public class Shop {
      * Всі группи продуктів магазину
      */
     private HashMap<String, ProductGroup> productGroups = new HashMap<String, ProductGroup>();
+    private ArrayList<TransactionInfo> transactionHistory = new ArrayList<>();
+    private Double profit = 0.0;
+
+    private Saver saveClass;
 
     /**
      * Повертає группи продуктів магазину
@@ -36,8 +41,10 @@ public class Shop {
      */
     public void save() {
             try {
+                Saver saveClass = new Saver(productGroups,transactionHistory,profit);
                 ObjectOutputStream saver = new ObjectOutputStream(new FileOutputStream("products.dat"));
-                saver.writeObject(productGroups);
+//                saver.writeObject(productGroups);
+                saver.writeObject(saveClass);
                 saver.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -50,9 +57,13 @@ public class Shop {
     public void load(){
         try {
             ObjectInputStream reader = new ObjectInputStream(new FileInputStream("products.dat"));
-            productGroups=(HashMap<String, ProductGroup>)reader.readObject();
+//            productGroups=(HashMap<String, ProductGroup>)reader.readObject();
+            saveClass=(Saver) reader.readObject();
+            productGroups = saveClass.getProductGroups();
+            transactionHistory = saveClass.getTransactionHistory();
+            profit = saveClass.getProfit();
             reader.close();
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | ClassCastException e) {
 //            e.printStackTrace();
         }
     }
@@ -105,7 +116,11 @@ public class Shop {
         for (Product product : getAllProducts()){
             if (product.getName().equals(name)){
                 if (product.getNumber()<numberOfSell) throw new IllegalArgumentException("Ви намагаєтась продати більше товару, чим є на складі!");
-                else product.setNumber(product.getNumber()-numberOfSell);
+                else {
+                    product.setNumber(product.getNumber()-numberOfSell);
+                    transactionHistory.add(new TransactionInfo(new Date(),product.getName(),numberOfSell,numberOfSell*product.getPrice()));
+                    profit+=(numberOfSell*product.getPrice());
+                }
             }
         }
         save();
@@ -329,5 +344,9 @@ public class Shop {
      */
     public Double getBankProductGroup(String key) {
         return productGroups.get(key).getBank();
+    }
+
+    public ArrayList<TransactionInfo> getTransactionHistory() {
+        return transactionHistory;
     }
 }

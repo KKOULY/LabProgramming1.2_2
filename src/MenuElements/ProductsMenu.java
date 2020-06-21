@@ -98,7 +98,7 @@ public class ProductsMenu extends JMenu{
                 }
             }
         });
-        JMenuItem buySellMenu = new JMenuItem("Продати/купити товар");
+        JMenuItem buySellMenu = new JMenuItem("Списати/Додати товар");
         buySellMenu.setFont(fontItems);
         this.add(buySellMenu);
         buySellMenu.addActionListener(new ActionListener() {
@@ -112,7 +112,7 @@ public class ProductsMenu extends JMenu{
                     }
                 }
                 if (noClearGroups) {
-                BuySellDialog buySellDialog = new BuySellDialog("Продати/купити товар");
+                BuySellDialog buySellDialog = new BuySellDialog("Списати/Додати товар");
                 buySellDialog.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "В магазині немає товарів!", "Помилка!", JOptionPane.ERROR_MESSAGE);
@@ -203,12 +203,12 @@ public class ProductsMenu extends JMenu{
             JLabel label1 = new JLabel(String.valueOf(product.getNumber()));
             label1.setFont(font);
             tempPanel.add(label1);
-            JLabel label4 = new JLabel("Скільки продати/купити: ");
+            JLabel label4 = new JLabel("Скільки списати/додати: ");
             label4.setFont(font);
             tempPanel.add(label4);
             numberOfProductsField=new JTextField();
             tempPanel.add(numberOfProductsField);
-            buttonBuy = new JButton("Купити");
+            buttonBuy = new JButton("Додати");
             tempPanel.add(buttonBuy);
             buttonBuy.addActionListener(new ActionListener() {
                 @Override
@@ -222,7 +222,7 @@ public class ProductsMenu extends JMenu{
                     }
                 }
             });
-            buttonSell = new JButton("Продати");
+            buttonSell = new JButton("Списати");
             tempPanel.add(buttonSell);
             buttonSell.addActionListener(new ActionListener() {
                 @Override

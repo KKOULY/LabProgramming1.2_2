@@ -49,4 +49,8 @@ public class MyMenu extends JMenuBar {
     public JPanel getPanel(){
         return panel;
     }
+
+    public static Shop getShop() {
+        return shop;
+    }
 }

@@ -71,7 +71,7 @@ public class InfoMenu extends JMenu {
         });
         this.add(infoAllGroups);
 
-        JMenuItem infoBank = new JMenuItem("Інформація по банку");
+        JMenuItem infoBank = new JMenuItem("Інформація по загальній вартості");
         infoBank.setFont(fontItems);
         infoBank.addActionListener(new ActionListener() {
             @Override

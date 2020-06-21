@@ -137,7 +137,7 @@ public class Tools {
         panel.add(groupsComboBox);
         groupsComboBox.setFont(fontMenu);
         groupsComboBox.addItem("Всі товари");
-        JLabel bank = new JLabel("Всього: "+shop.getAllBank()+" грн");
+        JLabel bank = new JLabel("Загальна вартість:  "+shop.getAllBank()+" грн");
         bank.setFont(fontMenu);
         for(String key:shop.getProductGroups().keySet()){
             groupsComboBox.addItem(key);
@@ -146,8 +146,8 @@ public class Tools {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String s = (String) groupsComboBox.getSelectedItem();
-                if(s.equals("Всі товари")) bank.setText("Всього: "+shop.getAllBank()+" грн");
-                else bank.setText("Всього: "+shop.getBankProductGroup(s)+" грн");
+                if(s.equals("Всі товари")) bank.setText("Загальна вартість:  "+shop.getAllBank()+" грн");
+                else bank.setText("Загальна вартість:  "+shop.getBankProductGroup(s)+" грн");
             }
         });
         panel.add(bank);
