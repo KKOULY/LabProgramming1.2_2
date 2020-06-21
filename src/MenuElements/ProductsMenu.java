@@ -134,6 +134,7 @@ public class ProductsMenu extends JMenu{
         private JButton buttonSell;
         private Font font = new Font("Verdana", Font.PLAIN, 16);
         private JDialog dialog;
+        JLabel label1;
 
         /**
          * Конструктор вікна
@@ -182,7 +183,7 @@ public class ProductsMenu extends JMenu{
                         productChoose.addItem(s);
                     }
                     product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
-
+                    label1.setText(String.valueOf(product.getNumber()));
                 }
             });
             String[] productArr = new String[shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().size()];
@@ -193,6 +194,15 @@ public class ProductsMenu extends JMenu{
             JLabel label3 = new JLabel("Назва товару");
             label3.setFont(font);
             tempPanel.add(label3);
+            productChoose.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    product=shop.getProductGroups().get(productGroupChoose.getSelectedItem()).getProducts().get(productChoose.getSelectedItem());
+                    if(product!=null) {
+                        label1.setText(String.valueOf(product.getNumber()));
+                    }
+                }
+            });
             tempPanel.add(productChoose);
             Color errorCol = new Color(255, 48, 48);
             Color normalCol = productChoose.getBackground();
@@ -200,7 +210,7 @@ public class ProductsMenu extends JMenu{
             JLabel label = new JLabel("Кількість товару на складі: ");
             label.setFont(font);
             tempPanel.add(label);
-            JLabel label1 = new JLabel(String.valueOf(product.getNumber()));
+            label1 = new JLabel(String.valueOf(product.getNumber()));
             label1.setFont(font);
             tempPanel.add(label1);
             JLabel label4 = new JLabel("Скільки списати/додати: ");
@@ -654,6 +664,9 @@ public class ProductsMenu extends JMenu{
                                 nameField.setBackground(errorCol);
                                 JOptionPane.showMessageDialog(null, new ExceptionSameName(product), "Помилка!", JOptionPane.ERROR_MESSAGE);
                             } else nameField.setBackground(normalCol);
+                            if (!Tools.isWord(name)){
+                                nameField.setBackground(errorCol);
+                            }
                         }
                     }
                 }

@@ -312,10 +312,11 @@ public class ProductsGroupMenu extends JMenu {
                             dialog.setVisible(false);
                         }
                         if (!add) {
-                            if (!Tools.isWord(name) || shop.isContainsProductGroupName(name))
+                            if (!Tools.isWord(name) || shop.isContainsProductGroupName(name)) {
                                 nameField.setBackground(errorCol);
-                            if (shop.isContainsProductGroupName(name))
-                                JOptionPane.showMessageDialog(null, "Існує продукт з такою назвою: " + name, "Помилка!", JOptionPane.ERROR_MESSAGE);
+                                if (shop.isContainsProductGroupName(name))
+                                    JOptionPane.showMessageDialog(null, "Існує продукт з такою назвою: " + name, "Помилка!", JOptionPane.ERROR_MESSAGE);
+                            }
                             else nameField.setBackground(normalCol);
                         }
                     }
