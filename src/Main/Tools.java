@@ -129,7 +129,6 @@ public class Tools {
      */
     public static JPanel getBankPanel(Font fontMenu, Shop shop) {
         JPanel panel = new JPanel(new GridLayout(3,1,0,40));
-        panel.setOpaque(false);
         JLabel label = new JLabel("Виберіть групу товарів");
         panel.add(label);
         label.setFont(fontMenu);
