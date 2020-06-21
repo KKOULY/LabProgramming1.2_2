@@ -57,7 +57,7 @@ public class MainMenu extends JMenu {
 
     private JPanel getMainPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Історія транзакцій");
+        JLabel label = new JLabel("Історія продаж");
         label.setFont(new Font("Verdana", Font.PLAIN, 20));
         panel.add(label,BorderLayout.NORTH);
         JTable table = getTableTransactionHistory();
