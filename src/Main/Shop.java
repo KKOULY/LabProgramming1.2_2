@@ -349,4 +349,8 @@ public class Shop {
     public ArrayList<TransactionInfo> getTransactionHistory() {
         return transactionHistory;
     }
+
+    public Double getProfit() {
+        return profit;
+    }
 }

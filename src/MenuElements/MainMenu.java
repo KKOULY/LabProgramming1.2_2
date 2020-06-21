@@ -16,7 +16,7 @@ public class MainMenu extends JMenu {
     MyMenu myMenu;
     JFrame frame;
     public MainMenu(JFrame frame, Font fontMenu, MyMenu myMenu){
-        super("Головна");
+        super("Історія_Продаж");
         panel = myMenu.getPanel();
         this.frame = frame;
         this.setFont(fontMenu);
@@ -57,7 +57,7 @@ public class MainMenu extends JMenu {
 
     private JPanel getMainPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Історія продаж");
+        JLabel label = new JLabel("Прибуток: "+ MyMenu.getShop().getProfit()+" гривні");
         label.setFont(new Font("Verdana", Font.PLAIN, 20));
         panel.add(label,BorderLayout.NORTH);
         JTable table = getTableTransactionHistory();
